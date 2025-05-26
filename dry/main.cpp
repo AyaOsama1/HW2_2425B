@@ -11,11 +11,9 @@ int main() {
     Pirate zoro("Zoro");
 
     const int crewSize = 2;
-    
-    Pirate strawHatCrew[2];
-    strawHatCrew[0] = luffy;
-    strawHatCrew[1] = zoro;
-    
+    Pirate strawHatCrew[2] = {luffy, zoro};
+    // the problem was in line 15 that command called a default constructor in Pirate while Pirate doesn't have one
+    // what I did is : put the values as in assignment and in that way no need to use a default constructor
     cout << "Straw Hat crew contains:" << endl;
     for (int i = 0; i < crewSize; i++) {
         cout << strawHatCrew[i] << endl;
