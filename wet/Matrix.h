@@ -11,12 +11,13 @@ class Matrix {
     int columns = 0 ;
     int* arr = nullptr;
     Matrix ();
-    Matrix (int rows = 0 ,  int columns = 0) ;
-    Matrix (int rows = 0 ,  int columns = 0 , int values=0) ;
+    Matrix (int rows ,  int columns ) ;
+    Matrix (int rows ,  int columns , int values) ;
     ~Matrix () ;
     int& operator()( int i , int j );
-    Matrix& operator*( int scalar );
+    Matrix operator*( int scalar );
     Matrix& operator*=( int scalar );
+    friend Matrix operator* ( int scalar , Matrix& matrix );
 
 
 };

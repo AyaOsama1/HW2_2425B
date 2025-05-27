@@ -5,6 +5,9 @@
 #include "Matrix.h"
 
 Matrix :: Matrix () {
+    rows = 0 ;
+    columns = 0 ;
+    arr = new int [0] ;
 }
 Matrix::Matrix (int rows ,  int columns ) {
     this -> rows = rows;
@@ -32,11 +35,21 @@ Matrix& Matrix::operator*= ( int scalar ) {
     return *this;
 }
 
-Matrix& Matrix::operator* ( int scalar ){
-    // it will take the matrix that's on the left as this object call the * in the class from type matrix
-    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
+Matrix Matrix::operator* ( int scalar ){
+    // it will take the matrix that's on the left as this object , call the * in the class from type matrix
+    // and take the scalar on the right as a value that the matrix takes and multiply as in this code
+    Matrix result (rows ,columns,0);
     for (int i = 0 ; i < (rows * columns); i++) {
-        arr [i]*= scalar ;
+        result.arr[i] = this -> arr [i] * scalar ;
     }
-    return *this;
+    return result;
 }
+
+Matrix operator* ( int scalar , Matrix& matrix ) {
+    Matrix result (matrix.rows ,matrix.columns,0);
+    for (int i = 0 ; i < (matrix.rows * matrix.columns); i++) {
+        result.arr[i] = matrix.arr [i] * scalar ;
+    }
+    return result;
+}
+
