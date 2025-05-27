@@ -13,11 +13,12 @@ class Matrix {
     Matrix ();
     Matrix (int rows ,  int columns ) ;
     Matrix (int rows ,  int columns , int values) ;
-    ~Matrix () ;
+   // should check if we even need this  ~Matrix () ;
     int& operator()( int i , int j );
     Matrix operator*( int scalar );
     Matrix& operator*=( int scalar );
     friend Matrix operator* ( int scalar , Matrix& matrix );
-
+    bool operator==( const Matrix& matrix ) const ;
+    bool operator!=( const Matrix& matrix ) const ;
 
 };

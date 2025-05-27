@@ -51,5 +51,23 @@ Matrix operator* ( int scalar , Matrix& matrix ) {
         result.arr[i] = matrix.arr [i] * scalar ;
     }
     return result;
-}
+}// when ther is a scalar from the right then the function searches for an integer function that have * operator and take matrix as a parameter there is no such function in
+//the integer class so I declared this non member function to be used when there is scalar from the left
 
+bool Matrix :: operator== ( const Matrix& matrix ) const {
+    if ((this -> arr == nullptr && matrix.arr != nullptr) || (this -> arr != nullptr && matrix.arr == nullptr)) {
+        return false;
+    }
+    if (this->rows != matrix.rows || this->columns != matrix.columns ) {
+        return false;
+    }
+    for (int i = 0 ; i < (this->rows * this->columns); i++) {
+        if (this->arr[i] != matrix.arr[i]) {
+            return false;
+        }
+    }
+    return true ;
+}
+bool Matrix :: operator!= ( const Matrix& matrix ) const {
+    return !(*this == matrix) ;
+}
