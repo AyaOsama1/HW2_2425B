@@ -20,5 +20,7 @@ class Matrix {
     friend Matrix operator* ( int scalar , Matrix& matrix );
     bool operator==( const Matrix& matrix ) const ;
     bool operator!=( const Matrix& matrix ) const ;
+    Matrix rotateClockwise ( Matrix& matrix );
+    Matrix rotateCounterClockwise ( Matrix& matrix );
 
 };

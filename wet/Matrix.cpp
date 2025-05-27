@@ -71,3 +71,34 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
 bool Matrix :: operator!= ( const Matrix& matrix ) const {
     return !(*this == matrix) ;
 }
+// this function first prints the values inside the columns upwards like the last value in the first column
+// first and the first value in the first row last then moves to the next column
+// in that way we rotate the matrix in a clock wise way
+Matrix Matrix :: rotateClockwise ( Matrix& matrix ){
+    int i =0;// index for the rotated matrix indexes
+    int indexLastRow = (columns * rows) -  (this -> columns ) ;
+    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
+    while (indexLastRow < this -> columns * this -> rows) {
+    for (int k = matrix.arr[ indexLastRow ] ; k >= 0  ; k -= this -> columns){
+            rotatedMatrix.arr[i] = matrix.arr[k] ;
+            i++;
+        }
+        indexLastRow = indexLastRow + 1 ;
+    }
+    return rotatedMatrix ;
+}
+//we copy now from the last column and going back to the first one ; reading from the rows also from last
+//row to the first one
+Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) {
+    int i =0;// index for the rotated matrix indexes
+    int indexLastColumn = columns - 1 ;
+    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
+    while (indexLastColumn < this -> columns * this -> rows) {
+        for (int k = matrix.arr[ indexLastColumn ] ; k < (this ->columns * rows)  ; k += this -> columns){
+            rotatedMatrix.arr[i] = matrix.arr[k] ;
+            i++;
+        }
+        indexLastColumn = indexLastColumn - 1 ;
+    }
+    return rotatedMatrix ;
+}
