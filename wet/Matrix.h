@@ -14,8 +14,9 @@ class Matrix {
     Matrix (int rows = 0 ,  int columns = 0) ;
     Matrix (int rows = 0 ,  int columns = 0 , int values=0) ;
     ~Matrix () ;
-    int& operator()()( int i , int j );
-    Matrix& operator*( int b );
+    int& operator()( int i , int j );
+    Matrix& operator*( int scalar );
+    Matrix& operator*=( int scalar );
 
 
 };

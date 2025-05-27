@@ -5,13 +5,13 @@
 #include "Matrix.h"
 
 Matrix :: Matrix () {
-}  
-Matrix :: Matrix (int rows ,  int columns ) {
+}
+Matrix::Matrix (int rows ,  int columns ) {
     this -> rows = rows;
     this -> columns = columns;
     this -> arr = new int[rows * columns]();
 }
-Matrix :: Matrix (int rows ,  int columns , int value) {
+ Matrix::Matrix (int rows ,  int columns , int value) {
     this -> rows = rows;
     this -> columns = columns;
     this -> arr = new int [rows * columns];
@@ -19,7 +19,24 @@ Matrix :: Matrix (int rows ,  int columns , int value) {
         arr[i] = value ;
     }
 }
-int& operator()()( int i , int j ){ // returning a referrence and not just an int handels all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
+int& Matrix::operator()( int i , int j ){ // returning a referrence and not just an int handels all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
     int place = ( i * columns )+ j ;// finding the index according to the giving info in the question i *width +j knowing that width = columns
     return arr[place] ;
+}
+Matrix& Matrix::operator*= ( int scalar ) {
+    // it will take the matrix that's on the left as this object call the *= in the class from type matrix
+    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
+    for (int i = 0 ; i < (rows * columns); i++) {
+        arr [i]= arr[i] * scalar ;
+    }
+    return *this;
+}
+
+Matrix& Matrix::operator* ( int scalar ){
+    // it will take the matrix that's on the left as this object call the * in the class from type matrix
+    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
+    for (int i = 0 ; i < (rows * columns); i++) {
+        arr [i]*= scalar ;
+    }
+    return *this;
 }
