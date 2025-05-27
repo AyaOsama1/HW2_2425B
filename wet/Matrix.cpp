@@ -5,7 +5,7 @@
 #include "Matrix.h"
 
 Matrix :: Matrix () {
-}
+}  
 Matrix :: Matrix (int rows ,  int columns ) {
     this -> rows = rows;
     this -> columns = columns;
