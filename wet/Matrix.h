@@ -7,9 +7,9 @@
 
 #endif //MATRIX_H
 class Matrix {
-    int rows = 0  ;
-    int columns = 0 ;
-    int* arr = nullptr;
+    int rows ;
+    int columns ;
+    int* arr ;
     Matrix ();
     Matrix (int rows ,  int columns ) ;
     Matrix (int rows ,  int columns , int values) ;

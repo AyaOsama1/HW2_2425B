@@ -60,7 +60,7 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
     }
     if (this->rows != matrix.rows || this->columns != matrix.columns ) {
         return false;
-    }
+    }  
     for (int i = 0 ; i < (this->rows * this->columns); i++) {
         if (this->arr[i] != matrix.arr[i]) {
             return false;
