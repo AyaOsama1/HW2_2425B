@@ -10,7 +10,7 @@
 #endif //MATAMVIDIA_H
 class MataMvidia {
     int numOfFrames;
-    Matrix* film;
+    Matrix* film;    
     string nameOfFilm;
     string nameOfMaker;
     MataMvidia (const MataMvidia& other);
