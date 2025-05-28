@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Pirate.h"
 #include <cstring>
+#define ZORO_BOUNTY 500000
+#define LUFFY_BOUNTY 1000000
 
 using std::cout, std::endl;
 
@@ -9,7 +11,8 @@ int main() {
 
     Pirate luffy("Luffy");
     Pirate zoro("Zoro");
-
+    zoro.setBounty(ZORO_BOUNTY);
+    luffy.setBounty(LUFFY_BOUNTY);
     const int crewSize = 2;
     Pirate strawHatCrew[2] = {luffy, zoro};
     // the problem was in line 15 that command called a default constructor in Pirate while Pirate doesn't have one

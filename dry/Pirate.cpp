@@ -2,8 +2,7 @@
 #include "Pirate.h"
 
 
-Pirate::Pirate(const string& name): name(name) {}
-
+ Pirate::Pirate(const string& name, int Bounty) : name(name) , Bounty(Bounty) {}
 
 void Pirate::setName(const string& name){
     this->name = name;
@@ -19,3 +18,16 @@ std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
     os << pirate.name;
     return os;
 }
+
+ void Pirate::setBounty(int Bounty){
+ this->Bounty = Bounty;
+
+}
+
+ int Pirate::getBounty() const{
+  return Bounty;
+ }
+
+void printBounty(const int Bounty) {
+     std::cout << Bounty << std::endl ;
+ }
