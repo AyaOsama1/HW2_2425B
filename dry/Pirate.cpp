@@ -3,6 +3,8 @@
 
 
  Pirate::Pirate(const string& name, int Bounty) : name(name) , Bounty(Bounty) {}
+Pirate::Pirate(const string& name) : name(name) {}
+
 
 void Pirate::setName(const string& name){
     this->name = name;

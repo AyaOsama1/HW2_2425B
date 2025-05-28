@@ -12,6 +12,7 @@ private:
 
 public:
     Pirate(const string& name , int Bounty);
+    Pirate::Pirate(const string& name);
     int getBounty() const;
     void setBounty(int Bounty);
 
