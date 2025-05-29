@@ -117,20 +117,20 @@ Matrix::Matrix (int rows ,  int columns ) {
         arr[i] = value ;
     }
 }
-int& Matrix::operator()( int i , int j ){ // returning a referrence and not just an int handels all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
+int& Matrix::operator()( int i , int j ) const { // returning a reference and not just an int handles all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
     int place = ( i * columns )+ j ;// finding the index according to the giving info in the question i *width +j knowing that width = columns
     return arr[place] ;
 }
 Matrix& Matrix::operator*= ( int scalar ) {
     // it will take the matrix that's on the left as this object call the *= in the class from type matrix
-    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
+    // and take the scalar on the right as a value that the matrix takes and multiply as in this code
     for (int i = 0 ; i < (rows * columns); i++) {
         arr [i]= arr[i] * scalar ;
     }
     return *this;
 }
 
-Matrix Matrix::operator* ( int scalar ){
+Matrix Matrix::operator* ( int scalar ) const {
     // it will take the matrix that's on the left as this object , call the * in the class from type matrix
     // and take the scalar on the right as a value that the matrix takes and multiply as in this code
     Matrix result (rows ,columns,0);
@@ -146,7 +146,8 @@ Matrix operator* ( int scalar , Matrix& matrix ) {
         result.arr[i] = matrix.arr [i] * scalar ;
     }
     return result;
-}// when ther is a scalar from the right then the function searches for an integer function that have * operator and take matrix as a parameter there is no such function in
+}// when there is a scalar from the right then the function searches for an
+//integer function that have * operator and take matrix as a parameter there is no such function in
 //the integer class so I declared this non member function to be used when there is scalar from the left
 
 bool Matrix :: operator== ( const Matrix& matrix ) const {
@@ -169,7 +170,7 @@ bool Matrix :: operator!= ( const Matrix& matrix ) const {
 // this function first prints the values inside the columns upwards like the last value in the first column
 // first and the first value in the first row last then moves to the next column
 // in that way we rotate the matrix in a clock wise way
-Matrix Matrix :: rotateClockwise ( Matrix& matrix ){
+Matrix Matrix :: rotateClockwise ( Matrix& matrix ) const {
     int i =0;// index for the rotated matrix indexes
     int indexLastRow = (columns * rows) -  (this -> columns ) ;
     Matrix rotatedMatrix (this -> columns , this -> rows, 0);
@@ -184,7 +185,7 @@ Matrix Matrix :: rotateClockwise ( Matrix& matrix ){
 }
 //we copy now from the last column and going back to the first one ; reading from the rows also from last
 //row to the first one
-Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) {
+Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
     int i =0;// index for the rotated matrix indexes
     int indexLastColumn = columns - 1 ;
     Matrix rotatedMatrix (this -> columns , this -> rows, 0);
