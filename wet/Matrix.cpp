@@ -99,6 +99,34 @@ Matrix Matrix::operator-(const Matrix &matrix) const {
 }
 
 
+Matrix& Matrix::operator*=(const Matrix &matrix) {
+    if (this->columns != matrix.rows) {
+        exitWithError( MatamErrorType::UnmatchedSizes);
+    }
+    int* result = new int[this->rows * matrix.columns];
+    for (int i = 0 ; i < this->rows ; i++) {
+        for (int j = 0 ; j < matrix.columns ; j++) {
+            result[i * matrix.columns + j] = 0;
+            for (int k = 0 ; k < this->rows ; k++) {
+                result[i * matrix.columns + j]  += (*this)(i , k) * matrix(k , j);
+            }
+
+        }
+    }
+   delete[] this->arr;
+    this->arr = result;
+    this->columns = matrix.columns;
+    return *this;
+}
+
+Matrix Matrix::operator*(const Matrix& matrix) const {
+    Matrix result(*this);
+    result *= matrix;
+    return result;
+
+}
+
+
 Matrix :: Matrix () {
     rows = 0 ;
     columns = 0 ;

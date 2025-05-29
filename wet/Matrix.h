@@ -18,6 +18,8 @@ public:
     Matrix (int rows ,  int columns , int values) ;
     int& operator()( int i , int j ) const;
     Matrix& operator=( const Matrix& matrix );
+    Matrix& operator*=(const Matrix& matrix);
+    Matrix operator*(const Matrix& matrix) const;
     Matrix& operator+=( const Matrix& matrix );
     Matrix operator-( const Matrix& matrix ) const;
     Matrix& operator-=( const Matrix& matrix );
