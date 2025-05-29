@@ -19,6 +19,7 @@ int main() {
     // what I did is : put the values as in assignment and in that way no need to use a default constructor and the
     // values are in the places that we wanted
     cout << "Straw Hat crew contains:" << endl;
+
     for (int i = 0; i < crewSize; i++) {
         cout << strawHatCrew[i] << endl;
     }

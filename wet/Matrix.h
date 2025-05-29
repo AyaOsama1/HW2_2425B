@@ -4,17 +4,22 @@
 
 #ifndef MATRIX_H
 #define MATRIX_H
+#include <iosfwd>
 
 #endif //MATRIX_H
 class Matrix {
     int rows ;
     int columns ;
     int* arr ;
+    void copyMatrix(const Matrix& matrix);
+public:
     Matrix ();
     Matrix (int rows ,  int columns ) ;
     Matrix (int rows ,  int columns , int values) ;
-   // should check if we even need this  ~Matrix () ;
     int& operator()( int i , int j );
+    Matrix& operator=( const Matrix& matrix );
+    Matrix& operator+=( const Matrix& matrix );
+    Matrix Matrix::operator+(const Matrix &matrix) const;
     Matrix operator*( int scalar );
     Matrix& operator*=( int scalar );
     friend Matrix operator* ( int scalar , Matrix& matrix );
@@ -22,5 +27,7 @@ class Matrix {
     bool operator!=( const Matrix& matrix ) const ;
     Matrix rotateClockwise ( Matrix& matrix );
     Matrix rotateCounterClockwise ( Matrix& matrix );
-
+    Matrix(const Matrix& matrix) ;
+    friend std::ostream& operator<<( std::ostream& os , const Matrix& matrix );
+    ~Matrix();
 };

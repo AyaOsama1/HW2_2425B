@@ -3,6 +3,70 @@
 //
 
 #include "Matrix.h"
+#include "Utilities.h"
+#include <algorithm>
+#include <filesystem>
+#include <iostream>
+using std::cout;
+using std::endl;
+
+Matrix::~Matrix() {
+    delete[] this->arr;
+}
+void Matrix::copyMatrix(const Matrix &matrix) {
+    this->columns = matrix.columns;
+    this->rows = matrix.rows;
+    this->arr = new int[this->columns * this->rows];
+    for (int i = 0; i < this->columns * this->rows ; i++) {
+        this->arr[i] = matrix.arr[i];
+    }
+
+}
+
+Matrix::Matrix(const Matrix& matrix) {
+    this->copyMatrix(matrix);
+}
+
+Matrix& Matrix::operator=(const Matrix& matrix) {
+    if (this == &matrix)return *this;
+    delete[] this->arr;
+    this->copyMatrix(matrix);
+    return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
+    for (int i = 0 ; i < matrix.rows ; i++) {
+        os << "|";
+        for (int j = 0 ; j <  matrix.columns; j++) {
+                         os << matrix.arr[i * matrix.columns + j] << "|";
+        }
+       os << endl;
+    }
+    return os;
+}
+
+Matrix& Matrix::operator+=(const Matrix &matrix) {
+   const int thisSize = this->columns * this->rows;
+    const int matrixSize = matrix.columns * matrix.rows;
+    if (thisSize != matrixSize) {
+        exitWithError( MatamErrorType::UnmatchedSizes);
+    }
+    for (int i = 0 ; i < this->rows * matrix.columns ; i++) {
+
+            this->arr[i] += matrix.arr[i];
+
+    }
+    return *this;
+
+}
+
+Matrix Matrix::operator+(const Matrix &matrix) const {
+    Matrix result(*this);
+    result += matrix;
+    return result;
+
+}
+
 
 Matrix :: Matrix () {
     rows = 0 ;
