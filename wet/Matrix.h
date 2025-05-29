@@ -19,6 +19,10 @@ public:
     int& operator()( int i , int j );
     Matrix& operator=( const Matrix& matrix );
     Matrix& operator+=( const Matrix& matrix );
+    Matrix operator-( const Matrix& matrix ) const;
+    Matrix& operator-=( const Matrix& matrix );
+    Matrix& applyElementWiseOperator(const Matrix& matrix , const int factor);
+    bool isEqualSize(const Matrix& matrix) const;
     Matrix Matrix::operator+(const Matrix &matrix) const;
     Matrix operator*( int scalar );
     Matrix& operator*=( int scalar );

@@ -45,24 +45,55 @@ std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
     return os;
 }
 
-Matrix& Matrix::operator+=(const Matrix &matrix) {
-   const int thisSize = this->columns * this->rows;
+bool Matrix::isEqualSize(const Matrix& matrix) const {
+    const int thisSize = this->columns * this->rows;
     const int matrixSize = matrix.columns * matrix.rows;
-    if (thisSize != matrixSize) {
+    return thisSize == matrixSize;
+}
+
+Matrix &Matrix::applyElementWiseOperator(const Matrix& matrix , const int factor) {
+    if (!isEqualSize(matrix)) {
         exitWithError( MatamErrorType::UnmatchedSizes);
     }
-    for (int i = 0 ; i < this->rows * matrix.columns ; i++) {
 
-            this->arr[i] += matrix.arr[i];
+    for (int i = 0 ; i < this->rows * this->columns ; i++) {
+
+            this->arr[i] += (factor * matrix.arr[i]);
 
     }
+    return *this;
+}
+
+
+Matrix& Matrix::operator+=(const Matrix& matrix) {
+    this->applyElementWiseOperator(matrix,1);
     return *this;
 
 }
 
-Matrix Matrix::operator+(const Matrix &matrix) const {
+Matrix Matrix::operator+(const Matrix& matrix) const {
+    if (!isEqualSize(matrix)) {
+        exitWithError( MatamErrorType::UnmatchedSizes);
+    }
     Matrix result(*this);
     result += matrix;
+    return result;
+
+}
+
+
+Matrix& Matrix::operator-=(const Matrix &matrix) {
+    this->applyElementWiseOperator(matrix,-1);
+    return *this;
+
+}
+Matrix Matrix::operator-(const Matrix &matrix) const {
+
+    if (!isEqualSize(matrix)) {
+        exitWithError( MatamErrorType::UnmatchedSizes);
+    }
+    Matrix result(*this);
+    result -= matrix;
     return result;
 
 }
