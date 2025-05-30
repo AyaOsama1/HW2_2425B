@@ -2,12 +2,9 @@
 // Created by abush on 5/28/2025.
 //
 
-#ifndef MaTAMVIDIA_H
-#define MATAMVIDIA_H
-#include "Matrix.h"
-#include <string>
+#pragma once
 
-#endif //MATAMVIDIA_H
+
 class MataMvidia {
     int numOfFrames;
     Matrix* film;

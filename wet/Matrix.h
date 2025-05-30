@@ -1,6 +1,7 @@
 //
 // Created by abush on 5/27/2025.
 //
+#pragma once
 
 #ifndef MATRIX_H
 #define MATRIX_H
