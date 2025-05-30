@@ -301,7 +301,7 @@ Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
     return rotatedMatrix ;
 }
 
-Matrix Matrix :: rotateCounterClockwise ( const Matrix& matrix ) const {
+Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
      const int resultColumns = matrix.rows , resultRows = matrix.columns;
     Matrix result(resultRows , resultColumns , 0);
     for (int i = 0 ; i < matrix.rows ; i++) {

@@ -2,7 +2,7 @@
 // Created by abush on 5/28/2025.
 //
 
-#ifndef MATAMVIDIA_H
+#ifndef MaTAMVIDIA_H
 #define MATAMVIDIA_H
 #include "Matrix.h"
 #include <string>
