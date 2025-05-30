@@ -20,6 +20,10 @@ public:
     Matrix& operator=( const Matrix& matrix );
     Matrix& operator*=(const Matrix& matrix);
     Matrix operator*(const Matrix& matrix) const;
+    Matrix operator-()const;
+    Matrix transpose()const ;
+    double CalcFrobeniusNorm()const ;
+    int CalcDeterminant()const ;
     Matrix& operator+=( const Matrix& matrix );
     Matrix operator-( const Matrix& matrix ) const;
     Matrix& operator-=( const Matrix& matrix );

@@ -5,8 +5,11 @@
 #include "Matrix.h"
 #include "Utilities.h"
 #include <algorithm>
+#include <cmath>
 #include <filesystem>
 #include <iostream>
+#define MINUS_ONE -1
+#define ONE 1
 using std::cout;
 using std::endl;
 
@@ -66,7 +69,7 @@ Matrix &Matrix::applyElementWiseOperator(const Matrix& matrix , const int factor
 
 
 Matrix& Matrix::operator+=(const Matrix& matrix) {
-    this->applyElementWiseOperator(matrix,1);
+    this->applyElementWiseOperator(matrix,ONE);
     return *this;
 
 }
@@ -83,7 +86,7 @@ Matrix Matrix::operator+(const Matrix& matrix) const {
 
 
 Matrix& Matrix::operator-=(const Matrix &matrix) {
-    this->applyElementWiseOperator(matrix,-1);
+    this->applyElementWiseOperator(matrix,MINUS_ONE);
     return *this;
 
 }
@@ -125,6 +128,33 @@ Matrix Matrix::operator*(const Matrix& matrix) const {
     return result;
 
 }
+
+Matrix Matrix::operator-() const {
+    Matrix result(*this);
+    result *= -1;
+    return result;
+
+}
+Matrix Matrix::transpose()const {
+    Matrix result( this->columns , this->rows);
+    for (int i = 0 ; i < this->rows ; i++) {
+        for (int j = 0 ; j <  this->columns ; j++) {
+            result(j , i) = (*this)(i , j);
+        }
+    }
+    return result;
+
+}
+
+double Matrix::CalcFrobeniusNorm()const {
+    int sum = 0 ;
+    for (int i = 0 ; i < this->columns * this->rows ; i++) {
+        sum += this->arr[i] * this->arr[i] ;
+    }
+    return sqrt(sum);
+}
+
+
 
 
 Matrix :: Matrix () {
@@ -226,3 +256,25 @@ Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
     }
     return rotatedMatrix ;
 }
+
+Matrix Matrix :: rotateCounterClockwise ( const Matrix& matrix ) const {
+     const int resultColumns = matrix.rows , resultRows = matrix.columns;
+    Matrix result(resultRows , resultColumns , 0);
+    for (int i = 0 ; i < matrix.rows ; i++) {
+        for (int j = 0 ; j <  matrix.columns ; j++) {
+            result(j , i) = matrix(matrix.rows - i - 1, j );
+        }
+    }
+
+    return result ;
+
+
+}
+
+
+
+
+
+
+
+
