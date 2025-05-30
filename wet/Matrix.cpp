@@ -154,6 +154,50 @@ double Matrix::CalcFrobeniusNorm()const {
     return sqrt(sum);
 }
 
+Matrix Matrix::createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore) const {
+    Matrix result(matrix.rows - 1, matrix.columns - 1);
+    for (int i = 1 ; i < matrix.rows ; i++) {
+        for (int j = 1 ; j < matrix.columns ; j++) {
+            if ( j == Column_To_Ignore) {
+                result(i - 1 , j - 1) = matrix(i , j + 1);
+
+            } else {
+                result(i - 1 , j - 1) = matrix(i , j );
+            }
+        }
+    }
+
+    return result;
+
+}
+
+int Matrix::CalcDeterminant()const {
+    int factor = 0  , determinant = 0;
+    if (this->columns != this->rows) {
+        exitWithError(MatamErrorType::NotSquareMatrix);
+    }
+    if (this->columns == 1) {
+        return (*this)(1 , 1);
+    }
+    if (this->columns == 2) {
+        return ( (*this)(1 , 1) * (*this)(2 , 2) ) - ((*this)(1 , 2) * (*this)(2 , 1));
+    }
+    if (this->columns >= 3) {
+       for (int j = 0 ; j < this->columns ; j++) {
+           if ( j % 2 == 0)factor = 1;
+           else factor = -1;
+           Matrix MiniMatrix = createMiniMatrix(*this, j);
+           determinant += factor*(*this)(0 , j) * MiniMatrix.CalcDeterminant();
+
+       }
+
+    }
+    return determinant;
+
+}
+
+
+
 
 
 
