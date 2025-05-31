@@ -12,6 +12,7 @@ class MataMvidia {
     Matrix* frames;
     string title;
     string directorName;
+    void moveFrames(const Matrix* from ,  Matrix* to , const int startIndix, const int endIndix ) ;
 
     public:
 
@@ -19,6 +20,12 @@ class MataMvidia {
     MataMvidia (const MataMvidia& other);
     MataMvidia::MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) ;
     ~MataMvidia();
+
+
     //basic operators
     MataMvidia& operator= (const MataMvidia& other);
+    MataMvidia& operator+=(const Matrix& matrix);
+
+
+
 };

@@ -3,6 +3,7 @@
 //
 
 #include "MataMvidia.h"
+#define ZERO 0
 
 
 
@@ -20,6 +21,21 @@ MataMvidia::MataMvidia(const string& title, const string& directorName, const Ma
 
 MataMvidia::~MataMvidia() {
     delete[] this->frames;
+}
+
+void MataMvidia::moveFrames(const Matrix* from ,  Matrix* to , const int startIndix, const int endIndix ) {
+    for (int i = 0; i < endIndix ; i++) {
+        to[i] = from[i];
+    }
+}
+
+MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
+    Matrix* newFrames = new Matrix[this->frameCount + 1];
+   moveFrames(this->frames, newFrames, ZERO, this->frameCount);
+    newFrames[this->frameCount] = matrix;
+    delete[] this->frames;
+    this->frames = newFrames;
+    this->frameCount = this->frameCount++;
 }
 
 
