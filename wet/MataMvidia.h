@@ -8,15 +8,16 @@ using namespace std;
 #include <string>
 
 class MataMvidia {
-    int numOfFrames;
-    Matrix* film;
-    string nameOfFilm;
-    string nameOfMaker;
+    int frameCount;
+    Matrix* frames;
+    string title;
+    string directorName;
 
     public:
 
     //constructors and destructors
     MataMvidia (const MataMvidia& other);
+    MataMvidia(string title , string directorName , Matrix* frames , int frameCount);
 
     //basic operators
     MataMvidia& operator= (const MataMvidia& other);

@@ -5,22 +5,22 @@
 #include "MataMvidia.h"
 
 MataMvidia :: MataMvidia (const MataMvidia& other) {
-    this -> numOfFrames = other.numOfFrames;
-    this -> film =new Matrix [other.numOfFrames];
-    for (int i = 0; i < numOfFrames; i++) {
-        this -> film [i] = other.film[i];
+    this -> title = other.title;
+    this -> frames =new Matrix [other.frameCount];
+    for (int i = 0; i < frameCount; i++) {
+        this -> frames [i] = other.frames[i];
     }
-    this -> nameOfFilm = other.nameOfFilm;
-    this ->nameOfMaker = other.nameOfMaker;
+    this ->directorName = other.directorName;
 }
 MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
-    if (other.numOfFrames != this -> numOfFrames) {
-        this -> film (new Matrix* [other.numOfFrames]);
+    if (other.frameCount != this -> frameCount) {
+        this -> frames (new Matrix* [other.frameCount]);
     }
-    for (int i = 0; i < numOfFrames; i++) {
-        this -> film [i] = other.film[i];
+    for (int i = 0; i < frameCount; i++) {
+        this -> frames [i] = other.frames[i];
     }
-    this -> numOfFrames = other.numOfFrames;
-    this -> nameOfFilm = other.nameOfFilm;
-    this ->nameOfMaker = other.nameOfMaker;
+    this -> frameCount = other.frameCount;
+    this -> title = other.title;
+    this ->directorName = other.directorName;
+    return *this;
 }
