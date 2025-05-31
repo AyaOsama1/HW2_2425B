@@ -3,11 +3,7 @@
 //
 #pragma once
 
-#ifndef MATRIX_H
-#define MATRIX_H
-#include <iosfwd>
 
-#endif //MATRIX_H
 class Matrix {
     int rows ;
     int columns ;
