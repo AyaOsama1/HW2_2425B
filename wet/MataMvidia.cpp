@@ -39,7 +39,7 @@ MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
     newFrames[this->frameCount] = matrix;
     delete[] this->frames;
     this->frames = newFrames;
-    this->frameCount = this->frameCount++;
+    this->frameCount++;
     return *this;
 }
 
