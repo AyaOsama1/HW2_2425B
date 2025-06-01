@@ -2,6 +2,8 @@
 // Created by abush on 5/27/2025.
 //
 #pragma once
+#include <iostream>
+
 
 
 class Matrix {
@@ -46,6 +48,6 @@ public:
     bool operator==( const Matrix& matrix ) const ;
     bool operator!=( const Matrix& matrix ) const ;
 
-    friend Matrix operator* ( int scalar , Matrix& matrix );
+    friend Matrix operator* ( int scalar , const Matrix& matrix );
     friend std::ostream& operator<<( std::ostream& os , const Matrix& matrix );
 };

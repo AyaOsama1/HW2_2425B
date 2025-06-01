@@ -4,7 +4,6 @@
 
 #include "Matrix.h"
 #include "Utilities.h"
-#include <algorithm>
 #include <cmath>
 #include <filesystem>
 #include <iostream>
@@ -242,7 +241,7 @@ Matrix Matrix::operator* ( int scalar ) const {
     return result;
 }
 
-Matrix operator* ( int scalar , Matrix& matrix ) {
+Matrix operator* ( int scalar , const Matrix& matrix ) {
     Matrix result (matrix.rows ,matrix.columns,0);
     for (int i = 0 ; i < (matrix.rows * matrix.columns); i++) {
         result.arr[i] = matrix.arr [i] * scalar ;
