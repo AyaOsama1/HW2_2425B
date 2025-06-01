@@ -24,10 +24,14 @@ MataMvidia::~MataMvidia() {
 }
 
 void MataMvidia::moveFrames(const Matrix* from ,  Matrix* to , const int startIndix, const int endIndix ) {
-    for (int i = 0; i < endIndix ; i++) {
+    for (int i = startIndix; i < endIndix ; i++) {
         to[i] = from[i];
     }
 }
+
+
+
+
 
 MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
     Matrix* newFrames = new Matrix[this->frameCount + 1];
@@ -36,6 +40,16 @@ MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
     delete[] this->frames;
     this->frames = newFrames;
     this->frameCount = this->frameCount++;
+    return *this;
+}
+
+
+MataMvidia& MataMvidia::operator+=(const MataMvidia& other ) {
+    for (int i = 0 ; i < other.frameCount ; i++) {
+        *this += other.frames[i];
+    }
+    return *this;
+
 }
 
 
