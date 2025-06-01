@@ -260,7 +260,7 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
     }  
     for (int i = 0 ; i < (this->rows * this->columns); i++) {
         if (this->arr[i] != matrix.arr[i]) {
-            return false;
+            exitWithError(MatamErrorType::UnmatchedSizes);
         }
     }
     return true ;
