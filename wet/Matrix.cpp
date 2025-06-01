@@ -315,6 +315,11 @@ Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
 
 }
 
+Matrix Matrix:: rotateCounterClockwise ( const Matrix& matrix ) const {
+    Matrix result = rotateClockwise(rotateClockwise(rotateClockwise(matrix)));
+    return result ;
+}
+
 
 
 

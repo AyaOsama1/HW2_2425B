@@ -39,8 +39,8 @@ public:
     Matrix transpose()const ;
     double CalcFrobeniusNorm()const ;
     int CalcDeterminant()const ;
-    Matrix rotateClockwise ( Matrix& matrix ) const;
-    Matrix rotateCounterClockwise ( Matrix& matrix ) const;
+    Matrix rotateClockwise ( const Matrix& matrix ) const;
+    Matrix rotateCounterClockwise ( const Matrix& matrix ) const;
 
 
     bool operator==( const Matrix& matrix ) const ;
