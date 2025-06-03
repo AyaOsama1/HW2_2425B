@@ -81,3 +81,6 @@ MatamMvidia& MataMvidia :: operator[] (int index) {
     }
     return this->frames[index];
 }
+const MatamMvidia& MataMvidia :: operator+ (MataMvidia& other) const {
+    MataMvidia result = {this -> title, this -> directorName, other.frames + this -> frames, other.frameCount +this -> frameCount};
+}
