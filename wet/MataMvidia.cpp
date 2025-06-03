@@ -3,6 +3,8 @@
 //
 
 #include "MataMvidia.h"
+
+#include "Utilities.h"
 #define ZERO 0
 
 
@@ -72,4 +74,10 @@ MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
     this -> title = other.title;
     this ->directorName = other.directorName;
     return *this;
+}
+MatamMvidia& MataMvidia :: operator[] (int index) {
+    if (index <0 || index >= this -> frameCount) {
+        exitWithError ( MatamErrorType::OutOfBounds );
+    }
+    return this->frames[index];
 }
