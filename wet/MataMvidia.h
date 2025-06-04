@@ -25,8 +25,8 @@ class MataMvidia {
     //basic operators
     MataMvidia& operator= (const MataMvidia& other);
     MataMvidia& operator+=(const Matrix& matrix);
-    // not constant cause we want the user to write and read from this operator
-    MataMvidia& operator[] (int index);
-    const MatamMvidia& operator+(MataMvidia other) const;
+    MataMvidia& operator+=(const MataMvidia& other);
+    MataMvidia& operator[] (const int index) ;
+    MataMvidia operator+(const MataMvidia other) const;
 
 };

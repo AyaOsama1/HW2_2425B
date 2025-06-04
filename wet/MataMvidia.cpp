@@ -51,7 +51,6 @@ MataMvidia& MataMvidia::operator+=(const MataMvidia& other ) {
         *this += other.frames[i];
     }
     return *this;
-
 }
 
 
@@ -75,14 +74,14 @@ MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
     this ->directorName = other.directorName;
     return *this;
 }
-MatamMvidia& MataMvidia :: operator[] (int index) {
+MatamMvidia& MataMvidia :: operator[] (const int index) {
     if (index <0 || index >= this -> frameCount) {
         exitWithError ( MatamErrorType::OutOfBounds );
     }
     return this->frames[index];
 }
-const MatamMvidia& MataMvidia :: operator+ (MataMvidia& other) const {
-    MataMvidia result = {*this};
+ MatamMvidia MataMvidia :: operator+ (const MataMvidia& other) const {
+    MataMvidia result (*this);
     result += other;
     return result;
 }

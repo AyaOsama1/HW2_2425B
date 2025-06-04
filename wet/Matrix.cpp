@@ -152,15 +152,19 @@ double Matrix::CalcFrobeniusNorm()const {
     return sqrt(sum);
 }
 
-Matrix Matrix::createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore) const {
+Matrix Matrix::createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore ) const {
     Matrix result(matrix.rows - 1, matrix.columns - 1);
-    for (int i = 1 ; i < matrix.rows ; i++) {
-        for (int j = 1 ; j < matrix.columns ; j++) {
+    for (int i = 0 ; i < matrix.rows ; i++) {
+        for (int j = 0 ; j < matrix.columns ; j++) {
             if ( j == Column_To_Ignore) {
-                result(i - 1 , j - 1) = matrix(i , j + 1);
-
-            } else {
-                result(i - 1 , j - 1) = matrix(i , j );
+                if (j == matrix.columns ) {
+                    return result;
+                }
+                j++;
+                result(i , j ) = matrix(i + 1 , j );
+            }
+            else {
+                result(i , j ) = matrix(i + 1 , j );
             }
         }
     }
@@ -182,23 +186,18 @@ int Matrix::CalcDeterminant()const {
     }
     if (this->columns >= 3) {
        for (int j = 0 ; j < this->columns ; j++) {
-           if ( j % 2 == 0)factor = 1;
-           else factor = -1;
+           if ( j % 2 == 0){
+               factor = One ;
+           }
+           else {
+               factor = MINUS_ONE;
+           }
            Matrix MiniMatrix = createMiniMatrix(*this, j);
            determinant += factor*(*this)(0 , j) * MiniMatrix.CalcDeterminant();
-
        }
-
     }
     return determinant;
-
 }
-
-
-
-
-
-
 Matrix :: Matrix () {
     rows = 0 ;
     columns = 0 ;
@@ -267,37 +266,6 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
 bool Matrix :: operator!= ( const Matrix& matrix ) const {
     return !(*this == matrix) ;
 }
-// this function first prints the values inside the columns upwards like the last value in the first column
-// first and the first value in the first row last then moves to the next column
-// in that way we rotate the matrix in a clock wise way
-Matrix Matrix :: rotateClockwise ( Matrix& matrix ) const {
-    int i =0;// index for the rotated matrix indexes
-    int indexLastRow = (columns * rows) -  (this -> columns ) ;
-    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
-    while (indexLastRow < this -> columns * this -> rows) {
-    for (int k = matrix.arr[ indexLastRow ] ; k >= 0  ; k -= this -> columns){
-            rotatedMatrix.arr[i] = matrix.arr[k] ;
-            i++;
-        }
-        indexLastRow = indexLastRow + 1 ;
-    }
-    return rotatedMatrix ;
-}
-//we copy now from the last column and going back to the first one ; reading from the rows also from last
-//row to the first one
-Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
-    int i =0;// index for the rotated matrix indexes
-    int indexLastColumn = columns - 1 ;
-    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
-    while (indexLastColumn < this -> columns * this -> rows) {
-        for (int k = matrix.arr[ indexLastColumn ] ; k < (this ->columns * rows)  ; k += this -> columns){
-            rotatedMatrix.arr[i] = matrix.arr[k] ;
-            i++;
-        }
-        indexLastColumn = indexLastColumn - 1 ;
-    }
-    return rotatedMatrix ;
-}
 
 Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
      const int resultColumns = matrix.rows , resultRows = matrix.columns;
@@ -307,10 +275,7 @@ Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
             result(j , i) = matrix(matrix.rows - i - 1, j );
         }
     }
-
     return result ;
-
-
 }
 
 Matrix Matrix:: rotateCounterClockwise ( const Matrix& matrix ) const {
