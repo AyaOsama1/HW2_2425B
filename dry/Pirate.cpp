@@ -3,13 +3,11 @@
 
 
  Pirate::Pirate(const string& name, int Bounty) : name(name) , Bounty(Bounty) {}
-Pirate::Pirate(const string& name) : name(name) {}
 
 
 void Pirate::setName(const string& name){
     this->name = name;
 }
-
 
 std::string Pirate::getName(){
     return name;
@@ -18,6 +16,7 @@ std::string Pirate::getName(){
 
 std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
     os << pirate.name;
+     os << pirate.fruit;
     return os;
 }
 
@@ -30,6 +29,3 @@ std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
   return Bounty;
  }
 
-void printBounty(const int Bounty) {
-     std::cout << Bounty << std::endl ;
- }

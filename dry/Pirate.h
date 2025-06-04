@@ -4,15 +4,19 @@
 #include <iostream>
 
 using std::string;
-
+enum DEVIL_FRUIT {
+    GUMGUM,
+    FLOWERFLOWER,
+    CHOPCHOP
+};
 class Pirate {
 private:
     string name;
     int Bounty;
+    DEVIL_FRUIT fruit;
 
 public:
     Pirate(const string& name , int Bounty);
-    Pirate::Pirate(const string& name);
     int getBounty() const;
     void setBounty(int Bounty);
 
@@ -20,7 +24,6 @@ public:
     void setName(const string& name);
 
     string getName();
-    void printBounty(int Bounty);
 
     friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
 };
