@@ -18,7 +18,7 @@ class MataMvidia {
 
     //constructors and destructors
     MataMvidia (const MataMvidia& other);
-    MataMvidia::MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) ;
+    MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) ;
     ~MataMvidia();
 
 
@@ -26,7 +26,9 @@ class MataMvidia {
     MataMvidia& operator= (const MataMvidia& other);
     MataMvidia& operator+=(const Matrix& matrix);
     MataMvidia& operator+=(const MataMvidia& other);
-    MataMvidia& operator[] (const int index) ;
-    MataMvidia operator+(const MataMvidia other) const;
+    Matrix& operator[] (const int index) const;
+    MataMvidia operator+(const MataMvidia& other) const;
+    void MataMvidia::operator<<(const MataMvidia& other) const;
+
 
 };

@@ -187,7 +187,7 @@ int Matrix::CalcDeterminant()const {
     if (this->columns >= 3) {
        for (int j = 0 ; j < this->columns ; j++) {
            if ( j % 2 == 0){
-               factor = One ;
+               factor = ONE ;
            }
            else {
                factor = MINUS_ONE;
@@ -198,29 +198,29 @@ int Matrix::CalcDeterminant()const {
     }
     return determinant;
 }
-Matrix :: Matrix () {
+Matrix::Matrix() {
     rows = 0 ;
     columns = 0 ;
     arr = new int [0] ;
 }
-Matrix::Matrix (int rows ,  int columns ) {
+Matrix::Matrix (const int rows , const int columns ) {
     this -> rows = rows;
     this -> columns = columns;
     this -> arr = new int[rows * columns]();
 }
- Matrix::Matrix (int rows ,  int columns , int value) {
+ Matrix::Matrix (const int rows , const int columns , const int values) {
     this -> rows = rows;
     this -> columns = columns;
     this -> arr = new int [rows * columns];
     for (int i=0 ; i< (rows *columns); i++) {
-        arr[i] = value ;
+        arr[i] = values ;
     }
 }
-int& Matrix::operator()( int i , int j ) const { // returning a reference and not just an int handles all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
+int& Matrix::operator()(const int i , const int j ) const { // returning a reference and not just an int handles all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
     int place = ( i * columns )+ j ;// finding the index according to the giving info in the question i *width +j knowing that width = columns
     return arr[place] ;
 }
-Matrix& Matrix::operator*= ( int scalar ) {
+Matrix& Matrix::operator*= (const int scalar ) {
     // it will take the matrix that's on the left as this object call the *= in the class from type matrix
     // and take the scalar on the right as a value that the matrix takes and multiply as in this code
     for (int i = 0 ; i < (rows * columns); i++) {
@@ -229,7 +229,7 @@ Matrix& Matrix::operator*= ( int scalar ) {
     return *this;
 }
 
-Matrix Matrix::operator* ( int scalar ) const {
+Matrix Matrix::operator* (const int scalar ) const {
     // it will take the matrix that's on the left as this object , call the * in the class from type matrix
     // and take the scalar on the right as a value that the matrix takes and multiply as in this code
     Matrix result (rows ,columns,0);
@@ -239,35 +239,36 @@ Matrix Matrix::operator* ( int scalar ) const {
     return result;
 }
 
-Matrix operator* ( int scalar , const Matrix& matrix ) {
+Matrix operator*(const int scalar , const Matrix& matrix ) {
     Matrix result (matrix.rows ,matrix.columns,0);
     for (int i = 0 ; i < (matrix.rows * matrix.columns); i++) {
         result.arr[i] = matrix.arr [i] * scalar ;
     }
     return result;
-}// when there is a scalar from the right then the function searches for an
-//integer function that have * operator and take matrix as a parameter there is no such function in
-//the integer class so I declared this non member function to be used when there is scalar from the left
-
-bool Matrix :: operator== ( const Matrix& matrix ) const {
-    if ((this -> arr == nullptr && matrix.arr != nullptr) || (this -> arr != nullptr && matrix.arr == nullptr)) {
+}
+bool Matrix::operator==( const Matrix& matrix ) const {
+    if ((this->rows != matrix.rows) || (this->columns != matrix.columns) ){
         return false;
     }
-    if (this->rows != matrix.rows || this->columns != matrix.columns ) {
+    if (this->arr == nullptr ) {
         return false;
-    }  
+    }
+    if (matrix.arr == nullptr ) {
+        return false;
+    }
+    
     for (int i = 0 ; i < (this->rows * this->columns); i++) {
         if (this->arr[i] != matrix.arr[i]) {
-            exitWithError(MatamErrorType::UnmatchedSizes);
+            return false;
         }
     }
     return true ;
 }
 bool Matrix :: operator!= ( const Matrix& matrix ) const {
-    return !(*this == matrix) ;
+    return !(*this == matrix);
 }
 
-Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
+Matrix Matrix::rotateClockwise ( const Matrix& matrix ) const {
      const int resultColumns = matrix.rows , resultRows = matrix.columns;
     Matrix result(resultRows , resultColumns , 0);
     for (int i = 0 ; i < matrix.rows ; i++) {

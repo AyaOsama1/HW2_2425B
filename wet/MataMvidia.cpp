@@ -31,10 +31,6 @@ void MataMvidia::moveFrames(const Matrix* from ,  Matrix* to , const int startIn
     }
 }
 
-
-
-
-
 MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
     Matrix* newFrames = new Matrix[this->frameCount + 1];
    moveFrames(this->frames, newFrames, ZERO, this->frameCount);
@@ -53,16 +49,17 @@ MataMvidia& MataMvidia::operator+=(const MataMvidia& other ) {
     return *this;
 }
 
-
-MataMvidia :: MataMvidia (const MataMvidia& other) {
-    this -> title = other.title;
-    this -> frames =new Matrix [other.frameCount];
-    for (int i = 0; i < frameCount; i++) {
-        this -> frames [i] = other.frames[i];
+MataMvidia::MataMvidia(const MataMvidia& other) {
+    this->title = other.title;
+    this->frames = new Matrix [other.frameCount];
+    this->frameCount = other.frameCount;
+    for (int i = 0; i < this->frameCount; i++) {
+        this->frames [i] = other.frames[i];
     }
-    this ->directorName = other.directorName;
+    this->directorName = other.directorName;
+
 }
-MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
+MataMvidia& MataMvidia::operator= (const MataMvidia& other) {
     if (other.frameCount != this -> frameCount) {
         this -> frames (new Matrix* [other.frameCount]);
     }
@@ -74,14 +71,25 @@ MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
     this ->directorName = other.directorName;
     return *this;
 }
-MatamMvidia& MataMvidia :: operator[] (const int index) {
-    if (index <0 || index >= this -> frameCount) {
+Matrix& MataMvidia::operator[] (const int index) const {
+    if (index < 0 || index >= this -> frameCount) {
         exitWithError ( MatamErrorType::OutOfBounds );
     }
     return this->frames[index];
 }
- MatamMvidia MataMvidia :: operator+ (const MataMvidia& other) const {
+ MataMvidia MataMvidia::operator+ (const MataMvidia& other) const {
     MataMvidia result (*this);
     result += other;
     return result;
+}
+
+
+void MataMvidia::operator<<(const MataMvidia& other) const {
+    cout << "Movie Name:" << this->title << endl;
+    cout << "Author:" << this->directorName << endl;
+    for (int i = 0; i < this->frameCount; i++) {
+        cout << "Frame " << i << ":" << endl;
+        cout << this->frames[i] << endl;
+    }
+    cout << "-----End of Movie-----" ;
 }
