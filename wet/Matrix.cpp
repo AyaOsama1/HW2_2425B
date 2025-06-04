@@ -70,7 +70,6 @@ Matrix &Matrix::applyElementWiseOperator(const Matrix& matrix , const int factor
 Matrix& Matrix::operator+=(const Matrix& matrix) {
     this->applyElementWiseOperator(matrix,ONE);
     return *this;
-
 }
 
 Matrix Matrix::operator+(const Matrix& matrix) const {
