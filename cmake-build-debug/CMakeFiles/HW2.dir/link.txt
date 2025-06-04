@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/HW2.dir/dry/main.cpp.o CMakeFiles/HW2.dir/dry/Pirate.cpp.o CMakeFiles/HW2.dir/wet/Utilities.cpp.o CMakeFiles/HW2.dir/wet/tests.cpp.o CMakeFiles/HW2.dir/wet/Matrix.cpp.o CMakeFiles/HW2.dir/wet/MataMvidia.cpp.o -o HW2 

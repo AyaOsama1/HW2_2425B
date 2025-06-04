@@ -1,0 +1,2824 @@
+commit 3f3ddc751e1ca19a5a8653f86a3d7dbdec708e72
+Merge: 8ef6e9d 8e0f3ad
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed Jun 4 20:16:45 2025 +0300
+
+    Solve conflict
+
+commit 8e0f3ad8a3ac12a2f1b77aa39ee0d5243e640872
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed Jun 4 20:08:05 2025 +0300
+
+    Add DEVIL_FRUIT enum with it's functions
+
+diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
+index 82621ef..ff096c2 100755
+--- a/dry/Pirate.cpp
++++ b/dry/Pirate.cpp
+@@ -3,14 +3,12 @@
+ 
+ 
+  Pirate::Pirate(const string& name, int Bounty) : name(name) , Bounty(Bounty) {}
+-Pirate::Pirate(const string& name) : name(name) {}
+ 
+ 
+ void Pirate::setName(const string& name){
+     this->name = name;
+ }
+ 
+-
+ std::string Pirate::getName(){
+     return name;
+ }
+@@ -18,6 +16,7 @@ std::string Pirate::getName(){
+ 
+ std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
+     os << pirate.name;
++     os << pirate.fruit;
+     return os;
+ }
+ 
+@@ -30,6 +29,3 @@ std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
+   return Bounty;
+  }
+ 
+-void printBounty(const int Bounty) {
+-     std::cout << Bounty << std::endl ;
+- }
+diff --git a/dry/Pirate.h b/dry/Pirate.h
+index 8815e94..6ce34bc 100755
+--- a/dry/Pirate.h
++++ b/dry/Pirate.h
+@@ -4,15 +4,19 @@
+ #include <iostream>
+ 
+ using std::string;
+-
++enum DEVIL_FRUIT {
++    GUMGUM,
++    FLOWERFLOWER,
++    CHOPCHOP
++};
+ class Pirate {
+ private:
+     string name;
+     int Bounty;
++    DEVIL_FRUIT fruit;
+ 
+ public:
+     Pirate(const string& name , int Bounty);
+-    Pirate::Pirate(const string& name);
+     int getBounty() const;
+     void setBounty(int Bounty);
+ 
+@@ -20,7 +24,6 @@ public:
+     void setName(const string& name);
+ 
+     string getName();
+-    void printBounty(int Bounty);
+ 
+     friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
+ };
+
+commit 8ef6e9dd9d8c2b88a09b1e62495d130ebf980a1b
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed Jun 4 20:03:47 2025 +0300
+
+    delete unnecessary functions
+
+diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
+index 82621ef..dfbad92 100755
+--- a/dry/Pirate.cpp
++++ b/dry/Pirate.cpp
+@@ -2,8 +2,7 @@
+ #include "Pirate.h"
+ 
+ 
+- Pirate::Pirate(const string& name, int Bounty) : name(name) , Bounty(Bounty) {}
+-Pirate::Pirate(const string& name) : name(name) {}
++ Pirate::Pirate(const string& name, int bounty) : name(name) , bounty(bounty) {}
+ 
+ 
+ void Pirate::setName(const string& name){
+@@ -18,18 +17,17 @@ std::string Pirate::getName(){
+ 
+ std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
+     os << pirate.name;
++    os << pirate.bounty;
+     return os;
+ }
+ 
+- void Pirate::setBounty(int Bounty){
+- this->Bounty = Bounty;
++ void Pirate::setBounty(int bounty){
++ this->bounty = bounty;
+ 
+ }
+ 
+  int Pirate::getBounty() const{
+-  return Bounty;
++  return bounty;
+  }
+ 
+-void printBounty(const int Bounty) {
+-     std::cout << Bounty << std::endl ;
+- }
++
+diff --git a/dry/Pirate.h b/dry/Pirate.h
+index 8815e94..8cd8e3d 100755
+--- a/dry/Pirate.h
++++ b/dry/Pirate.h
+@@ -4,23 +4,26 @@
+ #include <iostream>
+ 
+ using std::string;
+-
++enum DEVIL_FRUIT {
++    GUMGUM,
++    CHOPCHOP,
++    FLOWERFLOWER
++};
+ class Pirate {
+ private:
+     string name;
+-    int Bounty;
++    int bounty;
++    DEVIL_FRUIT Fruit;
+ 
+ public:
+-    Pirate(const string& name , int Bounty);
+-    Pirate::Pirate(const string& name);
++    Pirate(const string& name , int bounty);
+     int getBounty() const;
+-    void setBounty(int Bounty);
++    void setBounty(int bounty);
+ 
+     ~Pirate() = default;
+     void setName(const string& name);
+ 
+     string getName();
+-    void printBounty(int Bounty);
+ 
+     friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
+ };
+
+commit 9d742013a3b3919589b12d0b39986a11a1bbd8ac
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Wed Jun 4 19:05:13 2025 +0300
+
+    clean up code
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index b6238e9..c4c0e57 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -31,10 +31,6 @@ void MataMvidia::moveFrames(const Matrix* from ,  Matrix* to , const int startIn
+     }
+ }
+ 
+-
+-
+-
+-
+ MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
+     Matrix* newFrames = new Matrix[this->frameCount + 1];
+    moveFrames(this->frames, newFrames, ZERO, this->frameCount);
+@@ -53,16 +49,17 @@ MataMvidia& MataMvidia::operator+=(const MataMvidia& other ) {
+     return *this;
+ }
+ 
+-
+-MataMvidia :: MataMvidia (const MataMvidia& other) {
+-    this -> title = other.title;
+-    this -> frames =new Matrix [other.frameCount];
+-    for (int i = 0; i < frameCount; i++) {
+-        this -> frames [i] = other.frames[i];
++MataMvidia::MataMvidia(const MataMvidia& other) {
++    this->title = other.title;
++    this->frames = new Matrix [other.frameCount];
++    this->frameCount = other.frameCount;
++    for (int i = 0; i < this->frameCount; i++) {
++        this->frames [i] = other.frames[i];
+     }
+-    this ->directorName = other.directorName;
++    this->directorName = other.directorName;
++
+ }
+-MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
++MataMvidia& MataMvidia::operator= (const MataMvidia& other) {
+     if (other.frameCount != this -> frameCount) {
+         this -> frames (new Matrix* [other.frameCount]);
+     }
+@@ -74,14 +71,25 @@ MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
+     this ->directorName = other.directorName;
+     return *this;
+ }
+-MatamMvidia& MataMvidia :: operator[] (const int index) {
+-    if (index <0 || index >= this -> frameCount) {
++Matrix& MataMvidia::operator[] (const int index) const {
++    if (index < 0 || index >= this -> frameCount) {
+         exitWithError ( MatamErrorType::OutOfBounds );
+     }
+     return this->frames[index];
+ }
+- MatamMvidia MataMvidia :: operator+ (const MataMvidia& other) const {
++ MataMvidia MataMvidia::operator+ (const MataMvidia& other) const {
+     MataMvidia result (*this);
+     result += other;
+     return result;
+-}
+\ No newline at end of file
++}
++
++
++void MataMvidia::operator<<(const MataMvidia& other) const {
++    cout << "Movie Name:" << this->title << endl;
++    cout << "Author:" << this->directorName << endl;
++    for (int i = 0; i < this->frameCount; i++) {
++        cout << "Frame " << i << ":" << endl;
++        cout << this->frames[i] << endl;
++    }
++    cout << "-----End of Movie-----" ;
++}
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 98f901a..8ade895 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -18,7 +18,7 @@ class MataMvidia {
+ 
+     //constructors and destructors
+     MataMvidia (const MataMvidia& other);
+-    MataMvidia::MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) ;
++    MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) ;
+     ~MataMvidia();
+ 
+ 
+@@ -26,7 +26,9 @@ class MataMvidia {
+     MataMvidia& operator= (const MataMvidia& other);
+     MataMvidia& operator+=(const Matrix& matrix);
+     MataMvidia& operator+=(const MataMvidia& other);
+-    MataMvidia& operator[] (const int index) ;
+-    MataMvidia operator+(const MataMvidia other) const;
++    Matrix& operator[] (const int index) const;
++    MataMvidia operator+(const MataMvidia& other) const;
++    void MataMvidia::operator<<(const MataMvidia& other) const;
++
+ 
+ };
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 2fc185a..4e50639 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -187,7 +187,7 @@ int Matrix::CalcDeterminant()const {
+     if (this->columns >= 3) {
+        for (int j = 0 ; j < this->columns ; j++) {
+            if ( j % 2 == 0){
+-               factor = One ;
++               factor = ONE ;
+            }
+            else {
+                factor = MINUS_ONE;
+@@ -198,29 +198,29 @@ int Matrix::CalcDeterminant()const {
+     }
+     return determinant;
+ }
+-Matrix :: Matrix () {
++Matrix::Matrix() {
+     rows = 0 ;
+     columns = 0 ;
+     arr = new int [0] ;
+ }
+-Matrix::Matrix (int rows ,  int columns ) {
++Matrix::Matrix (const int rows , const int columns ) {
+     this -> rows = rows;
+     this -> columns = columns;
+     this -> arr = new int[rows * columns]();
+ }
+- Matrix::Matrix (int rows ,  int columns , int value) {
++ Matrix::Matrix (const int rows , const int columns , const int values) {
+     this -> rows = rows;
+     this -> columns = columns;
+     this -> arr = new int [rows * columns];
+     for (int i=0 ; i< (rows *columns); i++) {
+-        arr[i] = value ;
++        arr[i] = values ;
+     }
+ }
+-int& Matrix::operator()( int i , int j ) const { // returning a reference and not just an int handles all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
++int& Matrix::operator()(const int i , const int j ) const { // returning a reference and not just an int handles all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
+     int place = ( i * columns )+ j ;// finding the index according to the giving info in the question i *width +j knowing that width = columns
+     return arr[place] ;
+ }
+-Matrix& Matrix::operator*= ( int scalar ) {
++Matrix& Matrix::operator*= (const int scalar ) {
+     // it will take the matrix that's on the left as this object call the *= in the class from type matrix
+     // and take the scalar on the right as a value that the matrix takes and multiply as in this code
+     for (int i = 0 ; i < (rows * columns); i++) {
+@@ -229,7 +229,7 @@ Matrix& Matrix::operator*= ( int scalar ) {
+     return *this;
+ }
+ 
+-Matrix Matrix::operator* ( int scalar ) const {
++Matrix Matrix::operator* (const int scalar ) const {
+     // it will take the matrix that's on the left as this object , call the * in the class from type matrix
+     // and take the scalar on the right as a value that the matrix takes and multiply as in this code
+     Matrix result (rows ,columns,0);
+@@ -239,35 +239,36 @@ Matrix Matrix::operator* ( int scalar ) const {
+     return result;
+ }
+ 
+-Matrix operator* ( int scalar , const Matrix& matrix ) {
++Matrix operator*(const int scalar , const Matrix& matrix ) {
+     Matrix result (matrix.rows ,matrix.columns,0);
+     for (int i = 0 ; i < (matrix.rows * matrix.columns); i++) {
+         result.arr[i] = matrix.arr [i] * scalar ;
+     }
+     return result;
+-}// when there is a scalar from the right then the function searches for an
+-//integer function that have * operator and take matrix as a parameter there is no such function in
+-//the integer class so I declared this non member function to be used when there is scalar from the left
+-
+-bool Matrix :: operator== ( const Matrix& matrix ) const {
+-    if ((this -> arr == nullptr && matrix.arr != nullptr) || (this -> arr != nullptr && matrix.arr == nullptr)) {
++}
++bool Matrix::operator==( const Matrix& matrix ) const {
++    if ((this->rows != matrix.rows) || (this->columns != matrix.columns) ){
+         return false;
+     }
+-    if (this->rows != matrix.rows || this->columns != matrix.columns ) {
++    if (this->arr == nullptr ) {
+         return false;
+-    }  
++    }
++    if (matrix.arr == nullptr ) {
++        return false;
++    }
++    
+     for (int i = 0 ; i < (this->rows * this->columns); i++) {
+         if (this->arr[i] != matrix.arr[i]) {
+-            exitWithError(MatamErrorType::UnmatchedSizes);
++            return false;
+         }
+     }
+     return true ;
+ }
+ bool Matrix :: operator!= ( const Matrix& matrix ) const {
+-    return !(*this == matrix) ;
++    return !(*this == matrix);
+ }
+ 
+-Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
++Matrix Matrix::rotateClockwise ( const Matrix& matrix ) const {
+      const int resultColumns = matrix.rows , resultRows = matrix.columns;
+     Matrix result(resultRows , resultColumns , 0);
+     for (int i = 0 ; i < matrix.rows ; i++) {
+
+commit b6f9dafc925093676ad387df1f048b521b1807ec
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed Jun 4 18:16:48 2025 +0300
+
+    fix functions
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index 2d9ec9b..b6238e9 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -51,7 +51,6 @@ MataMvidia& MataMvidia::operator+=(const MataMvidia& other ) {
+         *this += other.frames[i];
+     }
+     return *this;
+-
+ }
+ 
+ 
+@@ -75,14 +74,14 @@ MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
+     this ->directorName = other.directorName;
+     return *this;
+ }
+-MatamMvidia& MataMvidia :: operator[] (int index) {
++MatamMvidia& MataMvidia :: operator[] (const int index) {
+     if (index <0 || index >= this -> frameCount) {
+         exitWithError ( MatamErrorType::OutOfBounds );
+     }
+     return this->frames[index];
+ }
+-const MatamMvidia& MataMvidia :: operator+ (MataMvidia& other) const {
+-    MataMvidia result = {*this};
++ MatamMvidia MataMvidia :: operator+ (const MataMvidia& other) const {
++    MataMvidia result (*this);
+     result += other;
+     return result;
+ }
+\ No newline at end of file
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 0622bee..98f901a 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -25,8 +25,8 @@ class MataMvidia {
+     //basic operators
+     MataMvidia& operator= (const MataMvidia& other);
+     MataMvidia& operator+=(const Matrix& matrix);
+-    // not constant cause we want the user to write and read from this operator
+-    MataMvidia& operator[] (int index);
+-    const MatamMvidia& operator+(MataMvidia other) const;
++    MataMvidia& operator+=(const MataMvidia& other);
++    MataMvidia& operator[] (const int index) ;
++    MataMvidia operator+(const MataMvidia other) const;
+ 
+ };
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 79ea004..2fc185a 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -152,15 +152,19 @@ double Matrix::CalcFrobeniusNorm()const {
+     return sqrt(sum);
+ }
+ 
+-Matrix Matrix::createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore) const {
++Matrix Matrix::createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore ) const {
+     Matrix result(matrix.rows - 1, matrix.columns - 1);
+-    for (int i = 1 ; i < matrix.rows ; i++) {
+-        for (int j = 1 ; j < matrix.columns ; j++) {
++    for (int i = 0 ; i < matrix.rows ; i++) {
++        for (int j = 0 ; j < matrix.columns ; j++) {
+             if ( j == Column_To_Ignore) {
+-                result(i - 1 , j - 1) = matrix(i , j + 1);
+-
+-            } else {
+-                result(i - 1 , j - 1) = matrix(i , j );
++                if (j == matrix.columns ) {
++                    return result;
++                }
++                j++;
++                result(i , j ) = matrix(i + 1 , j );
++            }
++            else {
++                result(i , j ) = matrix(i + 1 , j );
+             }
+         }
+     }
+@@ -182,23 +186,18 @@ int Matrix::CalcDeterminant()const {
+     }
+     if (this->columns >= 3) {
+        for (int j = 0 ; j < this->columns ; j++) {
+-           if ( j % 2 == 0)factor = 1;
+-           else factor = -1;
++           if ( j % 2 == 0){
++               factor = One ;
++           }
++           else {
++               factor = MINUS_ONE;
++           }
+            Matrix MiniMatrix = createMiniMatrix(*this, j);
+            determinant += factor*(*this)(0 , j) * MiniMatrix.CalcDeterminant();
+-
+        }
+-
+     }
+     return determinant;
+-
+ }
+-
+-
+-
+-
+-
+-
+ Matrix :: Matrix () {
+     rows = 0 ;
+     columns = 0 ;
+@@ -267,37 +266,6 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
+ bool Matrix :: operator!= ( const Matrix& matrix ) const {
+     return !(*this == matrix) ;
+ }
+-// this function first prints the values inside the columns upwards like the last value in the first column
+-// first and the first value in the first row last then moves to the next column
+-// in that way we rotate the matrix in a clock wise way
+-Matrix Matrix :: rotateClockwise ( Matrix& matrix ) const {
+-    int i =0;// index for the rotated matrix indexes
+-    int indexLastRow = (columns * rows) -  (this -> columns ) ;
+-    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
+-    while (indexLastRow < this -> columns * this -> rows) {
+-    for (int k = matrix.arr[ indexLastRow ] ; k >= 0  ; k -= this -> columns){
+-            rotatedMatrix.arr[i] = matrix.arr[k] ;
+-            i++;
+-        }
+-        indexLastRow = indexLastRow + 1 ;
+-    }
+-    return rotatedMatrix ;
+-}
+-//we copy now from the last column and going back to the first one ; reading from the rows also from last
+-//row to the first one
+-Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
+-    int i =0;// index for the rotated matrix indexes
+-    int indexLastColumn = columns - 1 ;
+-    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
+-    while (indexLastColumn < this -> columns * this -> rows) {
+-        for (int k = matrix.arr[ indexLastColumn ] ; k < (this ->columns * rows)  ; k += this -> columns){
+-            rotatedMatrix.arr[i] = matrix.arr[k] ;
+-            i++;
+-        }
+-        indexLastColumn = indexLastColumn - 1 ;
+-    }
+-    return rotatedMatrix ;
+-}
+ 
+ Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
+      const int resultColumns = matrix.rows , resultRows = matrix.columns;
+@@ -307,10 +275,7 @@ Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
+             result(j , i) = matrix(matrix.rows - i - 1, j );
+         }
+     }
+-
+     return result ;
+-
+-
+ }
+ 
+ Matrix Matrix:: rotateCounterClockwise ( const Matrix& matrix ) const {
+
+commit b9db84b504f0c6b13e35aaaf577917a708f141e3
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed Jun 4 12:43:24 2025 +0300
+
+    operator +
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index a6c5edf..2d9ec9b 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -82,7 +82,6 @@ MatamMvidia& MataMvidia :: operator[] (int index) {
+     return this->frames[index];
+ }
+ const MatamMvidia& MataMvidia :: operator+ (MataMvidia& other) const {
+-   // MataMvidia result = {this -> title, this -> directorName, other.frames + this -> frames, other.frameCount +this -> frameCount};
+     MataMvidia result = {*this};
+     result += other;
+     return result;
+
+commit fc0403756895baab24062eedfa7f59338054b902
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed Jun 4 12:30:11 2025 +0300
+
+    implement operator+ in MataMvidia
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index d8a1e08..a6c5edf 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -82,5 +82,8 @@ MatamMvidia& MataMvidia :: operator[] (int index) {
+     return this->frames[index];
+ }
+ const MatamMvidia& MataMvidia :: operator+ (MataMvidia& other) const {
+-    MataMvidia result = {this -> title, this -> directorName, other.frames + this -> frames, other.frameCount +this -> frameCount};
++   // MataMvidia result = {this -> title, this -> directorName, other.frames + this -> frames, other.frameCount +this -> frameCount};
++    MataMvidia result = {*this};
++    result += other;
++    return result;
+ }
+\ No newline at end of file
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index ee4ecf0..79ea004 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -70,7 +70,6 @@ Matrix &Matrix::applyElementWiseOperator(const Matrix& matrix , const int factor
+ Matrix& Matrix::operator+=(const Matrix& matrix) {
+     this->applyElementWiseOperator(matrix,ONE);
+     return *this;
+-
+ }
+ 
+ Matrix Matrix::operator+(const Matrix& matrix) const {
+
+commit 29b57fc989123f480497f029c0d8c19935c12d37
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed Jun 4 00:52:11 2025 +0300
+
+    implement functions
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index 8b8b56a..d8a1e08 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -81,3 +81,6 @@ MatamMvidia& MataMvidia :: operator[] (int index) {
+     }
+     return this->frames[index];
+ }
++const MatamMvidia& MataMvidia :: operator+ (MataMvidia& other) const {
++    MataMvidia result = {this -> title, this -> directorName, other.frames + this -> frames, other.frameCount +this -> frameCount};
++}
+\ No newline at end of file
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 907e07b..0622bee 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -27,6 +27,6 @@ class MataMvidia {
+     MataMvidia& operator+=(const Matrix& matrix);
+     // not constant cause we want the user to write and read from this operator
+     MataMvidia& operator[] (int index);
+-
++    const MatamMvidia& operator+(MataMvidia other) const;
+ 
+ };
+
+commit f1da1d359158ecf27ae1823a8b253b023e7b7d0e
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Tue Jun 3 23:05:07 2025 +0300
+
+    implement operator[]
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index 790e68d..8b8b56a 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -3,6 +3,8 @@
+ //
+ 
+ #include "MataMvidia.h"
++
++#include "Utilities.h"
+ #define ZERO 0
+ 
+ 
+@@ -73,3 +75,9 @@ MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
+     this ->directorName = other.directorName;
+     return *this;
+ }
++MatamMvidia& MataMvidia :: operator[] (int index) {
++    if (index <0 || index >= this -> frameCount) {
++        exitWithError ( MatamErrorType::OutOfBounds );
++    }
++    return this->frames[index];
++}
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 0ec1c16..907e07b 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -25,7 +25,8 @@ class MataMvidia {
+     //basic operators
+     MataMvidia& operator= (const MataMvidia& other);
+     MataMvidia& operator+=(const Matrix& matrix);
+-
++    // not constant cause we want the user to write and read from this operator
++    MataMvidia& operator[] (int index);
+ 
+ 
+ };
+
+commit a9c9117531825539ad4c4eb02b138c699d93105e
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sun Jun 1 18:52:41 2025 +0300
+
+    implement error handling with exitwitherror
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 9b67dbc..ee4ecf0 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -260,7 +260,7 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
+     }  
+     for (int i = 0 ; i < (this->rows * this->columns); i++) {
+         if (this->arr[i] != matrix.arr[i]) {
+-            return false;
++            exitWithError(MatamErrorType::UnmatchedSizes);
+         }
+     }
+     return true ;
+
+commit b39dbc534a6d6804cf9087f29381b4e907cede0c
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sun Jun 1 18:45:54 2025 +0300
+
+    add missing const qualifiers and remove unused include <algorithm>
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index ad37d06..9b67dbc 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -4,7 +4,6 @@
+ 
+ #include "Matrix.h"
+ #include "Utilities.h"
+-#include <algorithm>
+ #include <cmath>
+ #include <filesystem>
+ #include <iostream>
+@@ -242,7 +241,7 @@ Matrix Matrix::operator* ( int scalar ) const {
+     return result;
+ }
+ 
+-Matrix operator* ( int scalar , Matrix& matrix ) {
++Matrix operator* ( int scalar , const Matrix& matrix ) {
+     Matrix result (matrix.rows ,matrix.columns,0);
+     for (int i = 0 ; i < (matrix.rows * matrix.columns); i++) {
+         result.arr[i] = matrix.arr [i] * scalar ;
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 1e126e2..65a1764 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -2,6 +2,8 @@
+ // Created by abush on 5/27/2025.
+ //
+ #pragma once
++#include <iostream>
++
+ 
+ 
+ class Matrix {
+@@ -46,6 +48,6 @@ public:
+     bool operator==( const Matrix& matrix ) const ;
+     bool operator!=( const Matrix& matrix ) const ;
+ 
+-    friend Matrix operator* ( int scalar , Matrix& matrix );
++    friend Matrix operator* ( int scalar , const Matrix& matrix );
+     friend std::ostream& operator<<( std::ostream& os , const Matrix& matrix );
+ };
+\ No newline at end of file
+
+commit a5076af1832c446799d58fd8eda8c0d3277dd474
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sun Jun 1 18:30:10 2025 +0300
+
+    fix bug in +=
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index 47f7173..790e68d 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -39,7 +39,7 @@ MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
+     newFrames[this->frameCount] = matrix;
+     delete[] this->frames;
+     this->frames = newFrames;
+-    this->frameCount = this->frameCount++;
++    this->frameCount++;
+     return *this;
+ }
+ 
+
+commit 83c5066c6216ce1fd530c04cc486f2dd45166c5b
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sun Jun 1 18:20:14 2025 +0300
+
+    when two movies collide: operator +=
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index 29e81f8..47f7173 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -24,11 +24,15 @@ MataMvidia::~MataMvidia() {
+ }
+ 
+ void MataMvidia::moveFrames(const Matrix* from ,  Matrix* to , const int startIndix, const int endIndix ) {
+-    for (int i = 0; i < endIndix ; i++) {
++    for (int i = startIndix; i < endIndix ; i++) {
+         to[i] = from[i];
+     }
+ }
+ 
++
++
++
++
+ MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
+     Matrix* newFrames = new Matrix[this->frameCount + 1];
+    moveFrames(this->frames, newFrames, ZERO, this->frameCount);
+@@ -36,6 +40,16 @@ MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
+     delete[] this->frames;
+     this->frames = newFrames;
+     this->frameCount = this->frameCount++;
++    return *this;
++}
++
++
++MataMvidia& MataMvidia::operator+=(const MataMvidia& other ) {
++    for (int i = 0 ; i < other.frameCount ; i++) {
++        *this += other.frames[i];
++    }
++    return *this;
++
+ }
+ 
+ 
+
+commit a1a8eb7155cbdfafd56a1f9069f5f37ebdf447b3
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sun Jun 1 15:01:02 2025 +0300
+
+    implement counterclockwisw rotation using 3 clok wise turns
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index f2448c7..ad37d06 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -315,6 +315,11 @@ Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
+ 
+ }
+ 
++Matrix Matrix:: rotateCounterClockwise ( const Matrix& matrix ) const {
++    Matrix result = rotateClockwise(rotateClockwise(rotateClockwise(matrix)));
++    return result ;
++}
++
+ 
+ 
+ 
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 98b8d84..1e126e2 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -39,8 +39,8 @@ public:
+     Matrix transpose()const ;
+     double CalcFrobeniusNorm()const ;
+     int CalcDeterminant()const ;
+-    Matrix rotateClockwise ( Matrix& matrix ) const;
+-    Matrix rotateCounterClockwise ( Matrix& matrix ) const;
++    Matrix rotateClockwise ( const Matrix& matrix ) const;
++    Matrix rotateCounterClockwise ( const Matrix& matrix ) const;
+ 
+ 
+     bool operator==( const Matrix& matrix ) const ;
+
+commit e7216f5b297c44536482dcb681674126e1dc6022
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sat May 31 16:39:17 2025 +0300
+
+    add implementation for += operator between a matrix and a MataNvidia opject
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index 15eedcd..29e81f8 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -3,6 +3,7 @@
+ //
+ 
+ #include "MataMvidia.h"
++#define ZERO 0
+ 
+ 
+ 
+@@ -22,6 +23,21 @@ MataMvidia::~MataMvidia() {
+     delete[] this->frames;
+ }
+ 
++void MataMvidia::moveFrames(const Matrix* from ,  Matrix* to , const int startIndix, const int endIndix ) {
++    for (int i = 0; i < endIndix ; i++) {
++        to[i] = from[i];
++    }
++}
++
++MataMvidia& MataMvidia::operator+=(const Matrix& matrix) {
++    Matrix* newFrames = new Matrix[this->frameCount + 1];
++   moveFrames(this->frames, newFrames, ZERO, this->frameCount);
++    newFrames[this->frameCount] = matrix;
++    delete[] this->frames;
++    this->frames = newFrames;
++    this->frameCount = this->frameCount++;
++}
++
+ 
+ MataMvidia :: MataMvidia (const MataMvidia& other) {
+     this -> title = other.title;
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 0260a68..0ec1c16 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -12,6 +12,7 @@ class MataMvidia {
+     Matrix* frames;
+     string title;
+     string directorName;
++    void moveFrames(const Matrix* from ,  Matrix* to , const int startIndix, const int endIndix ) ;
+ 
+     public:
+ 
+@@ -19,6 +20,12 @@ class MataMvidia {
+     MataMvidia (const MataMvidia& other);
+     MataMvidia::MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) ;
+     ~MataMvidia();
++
++
+     //basic operators
+     MataMvidia& operator= (const MataMvidia& other);
++    MataMvidia& operator+=(const Matrix& matrix);
++
++
++
+ };
+
+commit 58d1b34ba16c1d78e39c62958daede7d37c00a62
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sat May 31 15:52:14 2025 +0300
+
+    add constructor and destructor for MataMvidia
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index 5da6f03..15eedcd 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -4,6 +4,25 @@
+ 
+ #include "MataMvidia.h"
+ 
++
++
++
++MataMvidia::MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) {
++    this->title = title;
++    this->directorName = directorName;
++    this->frameCount = frameCount;
++    this->frames = new Matrix[frameCount];
++    for (int i = 0; i < frameCount; i++) {
++        this->frames[i] = frames[i];
++    }
++
++}
++
++MataMvidia::~MataMvidia() {
++    delete[] this->frames;
++}
++
++
+ MataMvidia :: MataMvidia (const MataMvidia& other) {
+     this -> title = other.title;
+     this -> frames =new Matrix [other.frameCount];
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 8f03d93..0260a68 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -17,8 +17,8 @@ class MataMvidia {
+ 
+     //constructors and destructors
+     MataMvidia (const MataMvidia& other);
+-    MataMvidia(string title , string directorName , Matrix* frames , int frameCount);
+-
++    MataMvidia::MataMvidia(const string& title, const string& directorName, const Matrix *frames, const int frameCount) ;
++    ~MataMvidia();
+     //basic operators
+     MataMvidia& operator= (const MataMvidia& other);
+ };
+
+commit e214f948e0a56797ac63a93771ddd525b476ec2b
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sat May 31 15:41:11 2025 +0300
+
+    rename class fields in MataMvidia for readability and add missing return statemint in assignment operator
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+index b706ed5..5da6f03 100644
+--- a/wet/MataMvidia.cpp
++++ b/wet/MataMvidia.cpp
+@@ -5,22 +5,22 @@
+ #include "MataMvidia.h"
+ 
+ MataMvidia :: MataMvidia (const MataMvidia& other) {
+-    this -> numOfFrames = other.numOfFrames;
+-    this -> film =new Matrix [other.numOfFrames];
+-    for (int i = 0; i < numOfFrames; i++) {
+-        this -> film [i] = other.film[i];
++    this -> title = other.title;
++    this -> frames =new Matrix [other.frameCount];
++    for (int i = 0; i < frameCount; i++) {
++        this -> frames [i] = other.frames[i];
+     }
+-    this -> nameOfFilm = other.nameOfFilm;
+-    this ->nameOfMaker = other.nameOfMaker;
++    this ->directorName = other.directorName;
+ }
+ MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
+-    if (other.numOfFrames != this -> numOfFrames) {
+-        this -> film (new Matrix* [other.numOfFrames]);
++    if (other.frameCount != this -> frameCount) {
++        this -> frames (new Matrix* [other.frameCount]);
+     }
+-    for (int i = 0; i < numOfFrames; i++) {
+-        this -> film [i] = other.film[i];
++    for (int i = 0; i < frameCount; i++) {
++        this -> frames [i] = other.frames[i];
+     }
+-    this -> numOfFrames = other.numOfFrames;
+-    this -> nameOfFilm = other.nameOfFilm;
+-    this ->nameOfMaker = other.nameOfMaker;
++    this -> frameCount = other.frameCount;
++    this -> title = other.title;
++    this ->directorName = other.directorName;
++    return *this;
+ }
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 9c12106..8f03d93 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -8,15 +8,16 @@ using namespace std;
+ #include <string>
+ 
+ class MataMvidia {
+-    int numOfFrames;
+-    Matrix* film;
+-    string nameOfFilm;
+-    string nameOfMaker;
++    int frameCount;
++    Matrix* frames;
++    string title;
++    string directorName;
+ 
+     public:
+ 
+     //constructors and destructors
+     MataMvidia (const MataMvidia& other);
++    MataMvidia(string title , string directorName , Matrix* frames , int frameCount);
+ 
+     //basic operators
+     MataMvidia& operator= (const MataMvidia& other);
+
+commit 0b6940a9e7b28dd8caadda3ffe5c488fbdcb4b55
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Sat May 31 15:21:25 2025 +0300
+
+    sanity restored in MataMvidia.h : proper includes and no more #ifindef madness
+
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 5e786ff..9c12106 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -3,13 +3,21 @@
+ //
+ 
+ #pragma once
+-
++#include "Matrix.h"
++using namespace std;
++#include <string>
+ 
+ class MataMvidia {
+     int numOfFrames;
+     Matrix* film;
+     string nameOfFilm;
+     string nameOfMaker;
++
++    public:
++
++    //constructors and destructors
+     MataMvidia (const MataMvidia& other);
++
++    //basic operators
+     MataMvidia& operator= (const MataMvidia& other);
+ };
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 3376de1..98b8d84 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -3,11 +3,7 @@
+ //
+ #pragma once
+ 
+-#ifndef MATRIX_H
+-#define MATRIX_H
+-#include <iosfwd>
+ 
+-#endif //MATRIX_H
+ class Matrix {
+     int rows ;
+     int columns ;
+
+commit 0bf94cd5a04fc15983595f756200c48589ad1dac
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Fri May 30 21:52:24 2025 +0300
+
+    # pragma once or suffer twice
+
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 8e73ce9..5e786ff 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -2,12 +2,9 @@
+ // Created by abush on 5/28/2025.
+ //
+ 
+-#ifndef MaTAMVIDIA_H
+-#define MATAMVIDIA_H
+-#include "Matrix.h"
+-#include <string>
++#pragma once
++
+ 
+-#endif //MATAMVIDIA_H
+ class MataMvidia {
+     int numOfFrames;
+     Matrix* film;
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 2a280a8..3376de1 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -1,6 +1,7 @@
+ //
+ // Created by abush on 5/27/2025.
+ //
++#pragma once
+ 
+ #ifndef MATRIX_H
+ #define MATRIX_H
+
+commit c4579cc4012f0eab5bde9829273c7a3d62a4c9a0
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Fri May 30 21:49:09 2025 +0300
+
+    refactored matrix.h - organized and optimized
+
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 08dccfa..8e73ce9 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -2,7 +2,7 @@
+ // Created by abush on 5/28/2025.
+ //
+ 
+-#ifndef MATAMVIDIA_H
++#ifndef MaTAMVIDIA_H
+ #define MATAMVIDIA_H
+ #include "Matrix.h"
+ #include <string>
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index f7ca761..f2448c7 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -301,7 +301,7 @@ Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
+     return rotatedMatrix ;
+ }
+ 
+-Matrix Matrix :: rotateCounterClockwise ( const Matrix& matrix ) const {
++Matrix Matrix :: rotateClockwise ( const Matrix& matrix ) const {
+      const int resultColumns = matrix.rows , resultRows = matrix.columns;
+     Matrix result(resultRows , resultColumns , 0);
+     for (int i = 0 ; i < matrix.rows ; i++) {
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 9ef1336..2a280a8 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -13,38 +13,39 @@ class Matrix {
+     int* arr ;
+     void copyMatrix(const Matrix& matrix);
+     Matrix createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore) const ;
+-
++    Matrix& applyElementWiseOperator(const Matrix& matrix , const int factor);
++    bool isEqualSize(const Matrix& matrix) const;
+ public:
+-
++     //constructors and destructors
+     Matrix ();
+     Matrix (int rows ,  int columns ) ;
+     Matrix (int rows ,  int columns , int values) ;
+     Matrix(const Matrix& matrix) ;
+     ~Matrix();
+ 
+-
++    //basic Matrix operations
+     int& operator()( int i , int j ) const;
++
+     Matrix& operator*=(const Matrix& matrix);
+     Matrix& operator+=( const Matrix& matrix );
+     Matrix& operator-=( const Matrix& matrix );
+     Matrix& operator*=( int scalar );
+ 
+     Matrix operator-( const Matrix& matrix ) const;
+-    Matrix Matrix::operator+(const Matrix &matrix) const;
++    Matrix operator+(const Matrix &matrix) const;
+     Matrix operator*( int scalar ) const;
+     Matrix& operator=( const Matrix& matrix );
+     Matrix operator*(const Matrix& matrix) const;
+     Matrix operator-()const;
+ 
++    //Utilities
+     Matrix transpose()const ;
+     double CalcFrobeniusNorm()const ;
+     int CalcDeterminant()const ;
+-    Matrix& applyElementWiseOperator(const Matrix& matrix , const int factor);
+     Matrix rotateClockwise ( Matrix& matrix ) const;
+     Matrix rotateCounterClockwise ( Matrix& matrix ) const;
+ 
+ 
+-    bool isEqualSize(const Matrix& matrix) const;
+     bool operator==( const Matrix& matrix ) const ;
+     bool operator!=( const Matrix& matrix ) const ;
+ 
+
+commit d03732093aa7eb5fb2ca791ebfca3170396fab5a
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Fri May 30 21:17:34 2025 +0300
+
+    add implementation for CalcDeterminant method
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index cb7dda2..f7ca761 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -154,6 +154,50 @@ double Matrix::CalcFrobeniusNorm()const {
+     return sqrt(sum);
+ }
+ 
++Matrix Matrix::createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore) const {
++    Matrix result(matrix.rows - 1, matrix.columns - 1);
++    for (int i = 1 ; i < matrix.rows ; i++) {
++        for (int j = 1 ; j < matrix.columns ; j++) {
++            if ( j == Column_To_Ignore) {
++                result(i - 1 , j - 1) = matrix(i , j + 1);
++
++            } else {
++                result(i - 1 , j - 1) = matrix(i , j );
++            }
++        }
++    }
++
++    return result;
++
++}
++
++int Matrix::CalcDeterminant()const {
++    int factor = 0  , determinant = 0;
++    if (this->columns != this->rows) {
++        exitWithError(MatamErrorType::NotSquareMatrix);
++    }
++    if (this->columns == 1) {
++        return (*this)(1 , 1);
++    }
++    if (this->columns == 2) {
++        return ( (*this)(1 , 1) * (*this)(2 , 2) ) - ((*this)(1 , 2) * (*this)(2 , 1));
++    }
++    if (this->columns >= 3) {
++       for (int j = 0 ; j < this->columns ; j++) {
++           if ( j % 2 == 0)factor = 1;
++           else factor = -1;
++           Matrix MiniMatrix = createMiniMatrix(*this, j);
++           determinant += factor*(*this)(0 , j) * MiniMatrix.CalcDeterminant();
++
++       }
++
++    }
++    return determinant;
++
++}
++
++
++
+ 
+ 
+ 
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 01e9ce3..9ef1336 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -12,32 +12,42 @@ class Matrix {
+     int columns ;
+     int* arr ;
+     void copyMatrix(const Matrix& matrix);
++    Matrix createMiniMatrix(const Matrix& matrix , const int Column_To_Ignore) const ;
++
+ public:
++
+     Matrix ();
+     Matrix (int rows ,  int columns ) ;
+     Matrix (int rows ,  int columns , int values) ;
++    Matrix(const Matrix& matrix) ;
++    ~Matrix();
++
++
+     int& operator()( int i , int j ) const;
+-    Matrix& operator=( const Matrix& matrix );
+     Matrix& operator*=(const Matrix& matrix);
++    Matrix& operator+=( const Matrix& matrix );
++    Matrix& operator-=( const Matrix& matrix );
++    Matrix& operator*=( int scalar );
++
++    Matrix operator-( const Matrix& matrix ) const;
++    Matrix Matrix::operator+(const Matrix &matrix) const;
++    Matrix operator*( int scalar ) const;
++    Matrix& operator=( const Matrix& matrix );
+     Matrix operator*(const Matrix& matrix) const;
+     Matrix operator-()const;
++
+     Matrix transpose()const ;
+     double CalcFrobeniusNorm()const ;
+     int CalcDeterminant()const ;
+-    Matrix& operator+=( const Matrix& matrix );
+-    Matrix operator-( const Matrix& matrix ) const;
+-    Matrix& operator-=( const Matrix& matrix );
+     Matrix& applyElementWiseOperator(const Matrix& matrix , const int factor);
++    Matrix rotateClockwise ( Matrix& matrix ) const;
++    Matrix rotateCounterClockwise ( Matrix& matrix ) const;
++
++
+     bool isEqualSize(const Matrix& matrix) const;
+-    Matrix Matrix::operator+(const Matrix &matrix) const;
+-    Matrix operator*( int scalar ) const;
+-    Matrix& operator*=( int scalar );
+-    friend Matrix operator* ( int scalar , Matrix& matrix );
+     bool operator==( const Matrix& matrix ) const ;
+     bool operator!=( const Matrix& matrix ) const ;
+-    Matrix rotateClockwise ( Matrix& matrix ) const;
+-    Matrix rotateCounterClockwise ( Matrix& matrix ) const;
+-    Matrix(const Matrix& matrix) ;
++
++    friend Matrix operator* ( int scalar , Matrix& matrix );
+     friend std::ostream& operator<<( std::ostream& os , const Matrix& matrix );
+-    ~Matrix();
+ };
+\ No newline at end of file
+
+commit 2945a51c74699c58784d8d764b66580e89b1a686
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Fri May 30 19:32:18 2025 +0300
+
+    add implementatin : transpose , rotatecounterclockwise frobeniusnorm methods
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index a55c91f..cb7dda2 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -5,8 +5,11 @@
+ #include "Matrix.h"
+ #include "Utilities.h"
+ #include <algorithm>
++#include <cmath>
+ #include <filesystem>
+ #include <iostream>
++#define MINUS_ONE -1
++#define ONE 1
+ using std::cout;
+ using std::endl;
+ 
+@@ -66,7 +69,7 @@ Matrix &Matrix::applyElementWiseOperator(const Matrix& matrix , const int factor
+ 
+ 
+ Matrix& Matrix::operator+=(const Matrix& matrix) {
+-    this->applyElementWiseOperator(matrix,1);
++    this->applyElementWiseOperator(matrix,ONE);
+     return *this;
+ 
+ }
+@@ -83,7 +86,7 @@ Matrix Matrix::operator+(const Matrix& matrix) const {
+ 
+ 
+ Matrix& Matrix::operator-=(const Matrix &matrix) {
+-    this->applyElementWiseOperator(matrix,-1);
++    this->applyElementWiseOperator(matrix,MINUS_ONE);
+     return *this;
+ 
+ }
+@@ -126,6 +129,33 @@ Matrix Matrix::operator*(const Matrix& matrix) const {
+ 
+ }
+ 
++Matrix Matrix::operator-() const {
++    Matrix result(*this);
++    result *= -1;
++    return result;
++
++}
++Matrix Matrix::transpose()const {
++    Matrix result( this->columns , this->rows);
++    for (int i = 0 ; i < this->rows ; i++) {
++        for (int j = 0 ; j <  this->columns ; j++) {
++            result(j , i) = (*this)(i , j);
++        }
++    }
++    return result;
++
++}
++
++double Matrix::CalcFrobeniusNorm()const {
++    int sum = 0 ;
++    for (int i = 0 ; i < this->columns * this->rows ; i++) {
++        sum += this->arr[i] * this->arr[i] ;
++    }
++    return sqrt(sum);
++}
++
++
++
+ 
+ Matrix :: Matrix () {
+     rows = 0 ;
+@@ -226,3 +256,25 @@ Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
+     }
+     return rotatedMatrix ;
+ }
++
++Matrix Matrix :: rotateCounterClockwise ( const Matrix& matrix ) const {
++     const int resultColumns = matrix.rows , resultRows = matrix.columns;
++    Matrix result(resultRows , resultColumns , 0);
++    for (int i = 0 ; i < matrix.rows ; i++) {
++        for (int j = 0 ; j <  matrix.columns ; j++) {
++            result(j , i) = matrix(matrix.rows - i - 1, j );
++        }
++    }
++
++    return result ;
++
++
++}
++
++
++
++
++
++
++
++
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 709c33a..01e9ce3 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -20,6 +20,10 @@ public:
+     Matrix& operator=( const Matrix& matrix );
+     Matrix& operator*=(const Matrix& matrix);
+     Matrix operator*(const Matrix& matrix) const;
++    Matrix operator-()const;
++    Matrix transpose()const ;
++    double CalcFrobeniusNorm()const ;
++    int CalcDeterminant()const ;
+     Matrix& operator+=( const Matrix& matrix );
+     Matrix operator-( const Matrix& matrix ) const;
+     Matrix& operator-=( const Matrix& matrix );
+
+commit 9ee6c6adc29baa5b9e29d54fc138417108e7ef8a
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Thu May 29 20:07:02 2025 +0300
+
+     implement matrix - matrix multiplication (* , *= ) and finish operator logic
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 28892e8..a55c91f 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -99,6 +99,34 @@ Matrix Matrix::operator-(const Matrix &matrix) const {
+ }
+ 
+ 
++Matrix& Matrix::operator*=(const Matrix &matrix) {
++    if (this->columns != matrix.rows) {
++        exitWithError( MatamErrorType::UnmatchedSizes);
++    }
++    int* result = new int[this->rows * matrix.columns];
++    for (int i = 0 ; i < this->rows ; i++) {
++        for (int j = 0 ; j < matrix.columns ; j++) {
++            result[i * matrix.columns + j] = 0;
++            for (int k = 0 ; k < this->rows ; k++) {
++                result[i * matrix.columns + j]  += (*this)(i , k) * matrix(k , j);
++            }
++
++        }
++    }
++   delete[] this->arr;
++    this->arr = result;
++    this->columns = matrix.columns;
++    return *this;
++}
++
++Matrix Matrix::operator*(const Matrix& matrix) const {
++    Matrix result(*this);
++    result *= matrix;
++    return result;
++
++}
++
++
+ Matrix :: Matrix () {
+     rows = 0 ;
+     columns = 0 ;
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 7aa6698..709c33a 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -18,6 +18,8 @@ public:
+     Matrix (int rows ,  int columns , int values) ;
+     int& operator()( int i , int j ) const;
+     Matrix& operator=( const Matrix& matrix );
++    Matrix& operator*=(const Matrix& matrix);
++    Matrix operator*(const Matrix& matrix) const;
+     Matrix& operator+=( const Matrix& matrix );
+     Matrix operator-( const Matrix& matrix ) const;
+     Matrix& operator-=( const Matrix& matrix );
+
+commit afb91db2e1e2fef053eea52e6343efa0beaf5bfd
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Thu May 29 18:57:12 2025 +0300
+
+    fix spilling errors and add const to functions
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 18ee5a0..28892e8 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -117,20 +117,20 @@ Matrix::Matrix (int rows ,  int columns ) {
+         arr[i] = value ;
+     }
+ }
+-int& Matrix::operator()( int i , int j ){ // returning a referrence and not just an int handels all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
++int& Matrix::operator()( int i , int j ) const { // returning a reference and not just an int handles all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
+     int place = ( i * columns )+ j ;// finding the index according to the giving info in the question i *width +j knowing that width = columns
+     return arr[place] ;
+ }
+ Matrix& Matrix::operator*= ( int scalar ) {
+     // it will take the matrix that's on the left as this object call the *= in the class from type matrix
+-    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
++    // and take the scalar on the right as a value that the matrix takes and multiply as in this code
+     for (int i = 0 ; i < (rows * columns); i++) {
+         arr [i]= arr[i] * scalar ;
+     }
+     return *this;
+ }
+ 
+-Matrix Matrix::operator* ( int scalar ){
++Matrix Matrix::operator* ( int scalar ) const {
+     // it will take the matrix that's on the left as this object , call the * in the class from type matrix
+     // and take the scalar on the right as a value that the matrix takes and multiply as in this code
+     Matrix result (rows ,columns,0);
+@@ -146,7 +146,8 @@ Matrix operator* ( int scalar , Matrix& matrix ) {
+         result.arr[i] = matrix.arr [i] * scalar ;
+     }
+     return result;
+-}// when ther is a scalar from the right then the function searches for an integer function that have * operator and take matrix as a parameter there is no such function in
++}// when there is a scalar from the right then the function searches for an
++//integer function that have * operator and take matrix as a parameter there is no such function in
+ //the integer class so I declared this non member function to be used when there is scalar from the left
+ 
+ bool Matrix :: operator== ( const Matrix& matrix ) const {
+@@ -169,7 +170,7 @@ bool Matrix :: operator!= ( const Matrix& matrix ) const {
+ // this function first prints the values inside the columns upwards like the last value in the first column
+ // first and the first value in the first row last then moves to the next column
+ // in that way we rotate the matrix in a clock wise way
+-Matrix Matrix :: rotateClockwise ( Matrix& matrix ){
++Matrix Matrix :: rotateClockwise ( Matrix& matrix ) const {
+     int i =0;// index for the rotated matrix indexes
+     int indexLastRow = (columns * rows) -  (this -> columns ) ;
+     Matrix rotatedMatrix (this -> columns , this -> rows, 0);
+@@ -184,7 +185,7 @@ Matrix Matrix :: rotateClockwise ( Matrix& matrix ){
+ }
+ //we copy now from the last column and going back to the first one ; reading from the rows also from last
+ //row to the first one
+-Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) {
++Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) const {
+     int i =0;// index for the rotated matrix indexes
+     int indexLastColumn = columns - 1 ;
+     Matrix rotatedMatrix (this -> columns , this -> rows, 0);
+@@ -196,4 +197,4 @@ Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) {
+         indexLastColumn = indexLastColumn - 1 ;
+     }
+     return rotatedMatrix ;
+-}
+\ No newline at end of file
++}
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 0f296a9..7aa6698 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -16,7 +16,7 @@ public:
+     Matrix ();
+     Matrix (int rows ,  int columns ) ;
+     Matrix (int rows ,  int columns , int values) ;
+-    int& operator()( int i , int j );
++    int& operator()( int i , int j ) const;
+     Matrix& operator=( const Matrix& matrix );
+     Matrix& operator+=( const Matrix& matrix );
+     Matrix operator-( const Matrix& matrix ) const;
+@@ -24,13 +24,13 @@ public:
+     Matrix& applyElementWiseOperator(const Matrix& matrix , const int factor);
+     bool isEqualSize(const Matrix& matrix) const;
+     Matrix Matrix::operator+(const Matrix &matrix) const;
+-    Matrix operator*( int scalar );
++    Matrix operator*( int scalar ) const;
+     Matrix& operator*=( int scalar );
+     friend Matrix operator* ( int scalar , Matrix& matrix );
+     bool operator==( const Matrix& matrix ) const ;
+     bool operator!=( const Matrix& matrix ) const ;
+-    Matrix rotateClockwise ( Matrix& matrix );
+-    Matrix rotateCounterClockwise ( Matrix& matrix );
++    Matrix rotateClockwise ( Matrix& matrix ) const;
++    Matrix rotateCounterClockwise ( Matrix& matrix ) const;
+     Matrix(const Matrix& matrix) ;
+     friend std::ostream& operator<<( std::ostream& os , const Matrix& matrix );
+     ~Matrix();
+
+commit 69e5cb473fffb1d27430212de5e60444aa87aa99
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Thu May 29 15:12:31 2025 +0300
+
+    add operator overloading for +,-,+=,-= with shared logic
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 43727d2..18ee5a0 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -45,22 +45,36 @@ std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
+     return os;
+ }
+ 
+-Matrix& Matrix::operator+=(const Matrix &matrix) {
+-   const int thisSize = this->columns * this->rows;
++bool Matrix::isEqualSize(const Matrix& matrix) const {
++    const int thisSize = this->columns * this->rows;
+     const int matrixSize = matrix.columns * matrix.rows;
+-    if (thisSize != matrixSize) {
++    return thisSize == matrixSize;
++}
++
++Matrix &Matrix::applyElementWiseOperator(const Matrix& matrix , const int factor) {
++    if (!isEqualSize(matrix)) {
+         exitWithError( MatamErrorType::UnmatchedSizes);
+     }
+-    for (int i = 0 ; i < this->rows * matrix.columns ; i++) {
+ 
+-            this->arr[i] += matrix.arr[i];
++    for (int i = 0 ; i < this->rows * this->columns ; i++) {
++
++            this->arr[i] += (factor * matrix.arr[i]);
+ 
+     }
+     return *this;
++}
++
++
++Matrix& Matrix::operator+=(const Matrix& matrix) {
++    this->applyElementWiseOperator(matrix,1);
++    return *this;
+ 
+ }
+ 
+-Matrix Matrix::operator+(const Matrix &matrix) const {
++Matrix Matrix::operator+(const Matrix& matrix) const {
++    if (!isEqualSize(matrix)) {
++        exitWithError( MatamErrorType::UnmatchedSizes);
++    }
+     Matrix result(*this);
+     result += matrix;
+     return result;
+@@ -68,6 +82,23 @@ Matrix Matrix::operator+(const Matrix &matrix) const {
+ }
+ 
+ 
++Matrix& Matrix::operator-=(const Matrix &matrix) {
++    this->applyElementWiseOperator(matrix,-1);
++    return *this;
++
++}
++Matrix Matrix::operator-(const Matrix &matrix) const {
++
++    if (!isEqualSize(matrix)) {
++        exitWithError( MatamErrorType::UnmatchedSizes);
++    }
++    Matrix result(*this);
++    result -= matrix;
++    return result;
++
++}
++
++
+ Matrix :: Matrix () {
+     rows = 0 ;
+     columns = 0 ;
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 55e3280..0f296a9 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -19,6 +19,10 @@ public:
+     int& operator()( int i , int j );
+     Matrix& operator=( const Matrix& matrix );
+     Matrix& operator+=( const Matrix& matrix );
++    Matrix operator-( const Matrix& matrix ) const;
++    Matrix& operator-=( const Matrix& matrix );
++    Matrix& applyElementWiseOperator(const Matrix& matrix , const int factor);
++    bool isEqualSize(const Matrix& matrix) const;
+     Matrix Matrix::operator+(const Matrix &matrix) const;
+     Matrix operator*( int scalar );
+     Matrix& operator*=( int scalar );
+
+commit a36d73966f4f6d1841e6252d380b9a1affa39548
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Thu May 29 14:14:20 2025 +0300
+
+    add operator + /+= add copy constructor and operator<< and operator=
+
+diff --git a/dry/main.cpp b/dry/main.cpp
+index aabc7c4..63ee68c 100755
+--- a/dry/main.cpp
++++ b/dry/main.cpp
+@@ -19,6 +19,7 @@ int main() {
+     // what I did is : put the values as in assignment and in that way no need to use a default constructor and the
+     // values are in the places that we wanted
+     cout << "Straw Hat crew contains:" << endl;
++
+     for (int i = 0; i < crewSize; i++) {
+         cout << strawHatCrew[i] << endl;
+     }
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index cf8c349..43727d2 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -3,6 +3,70 @@
+ //
+ 
+ #include "Matrix.h"
++#include "Utilities.h"
++#include <algorithm>
++#include <filesystem>
++#include <iostream>
++using std::cout;
++using std::endl;
++
++Matrix::~Matrix() {
++    delete[] this->arr;
++}
++void Matrix::copyMatrix(const Matrix &matrix) {
++    this->columns = matrix.columns;
++    this->rows = matrix.rows;
++    this->arr = new int[this->columns * this->rows];
++    for (int i = 0; i < this->columns * this->rows ; i++) {
++        this->arr[i] = matrix.arr[i];
++    }
++
++}
++
++Matrix::Matrix(const Matrix& matrix) {
++    this->copyMatrix(matrix);
++}
++
++Matrix& Matrix::operator=(const Matrix& matrix) {
++    if (this == &matrix)return *this;
++    delete[] this->arr;
++    this->copyMatrix(matrix);
++    return *this;
++}
++
++std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
++    for (int i = 0 ; i < matrix.rows ; i++) {
++        os << "|";
++        for (int j = 0 ; j <  matrix.columns; j++) {
++                         os << matrix.arr[i * matrix.columns + j] << "|";
++        }
++       os << endl;
++    }
++    return os;
++}
++
++Matrix& Matrix::operator+=(const Matrix &matrix) {
++   const int thisSize = this->columns * this->rows;
++    const int matrixSize = matrix.columns * matrix.rows;
++    if (thisSize != matrixSize) {
++        exitWithError( MatamErrorType::UnmatchedSizes);
++    }
++    for (int i = 0 ; i < this->rows * matrix.columns ; i++) {
++
++            this->arr[i] += matrix.arr[i];
++
++    }
++    return *this;
++
++}
++
++Matrix Matrix::operator+(const Matrix &matrix) const {
++    Matrix result(*this);
++    result += matrix;
++    return result;
++
++}
++
+ 
+ Matrix :: Matrix () {
+     rows = 0 ;
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 4533966..55e3280 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -4,17 +4,22 @@
+ 
+ #ifndef MATRIX_H
+ #define MATRIX_H
++#include <iosfwd>
+ 
+ #endif //MATRIX_H
+ class Matrix {
+     int rows ;
+     int columns ;
+     int* arr ;
++    void copyMatrix(const Matrix& matrix);
++public:
+     Matrix ();
+     Matrix (int rows ,  int columns ) ;
+     Matrix (int rows ,  int columns , int values) ;
+-   // should check if we even need this  ~Matrix () ;
+     int& operator()( int i , int j );
++    Matrix& operator=( const Matrix& matrix );
++    Matrix& operator+=( const Matrix& matrix );
++    Matrix Matrix::operator+(const Matrix &matrix) const;
+     Matrix operator*( int scalar );
+     Matrix& operator*=( int scalar );
+     friend Matrix operator* ( int scalar , Matrix& matrix );
+@@ -22,5 +27,7 @@ class Matrix {
+     bool operator!=( const Matrix& matrix ) const ;
+     Matrix rotateClockwise ( Matrix& matrix );
+     Matrix rotateCounterClockwise ( Matrix& matrix );
+-
++    Matrix(const Matrix& matrix) ;
++    friend std::ostream& operator<<( std::ostream& os , const Matrix& matrix );
++    ~Matrix();
+ };
+\ No newline at end of file
+
+commit 013605e3dd636e507f8175c19f093c6811b17306
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Wed May 28 22:41:38 2025 +0300
+
+    fix constructor function
+
+diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
+index 1e503fc..82621ef 100755
+--- a/dry/Pirate.cpp
++++ b/dry/Pirate.cpp
+@@ -3,6 +3,8 @@
+ 
+ 
+  Pirate::Pirate(const string& name, int Bounty) : name(name) , Bounty(Bounty) {}
++Pirate::Pirate(const string& name) : name(name) {}
++
+ 
+ void Pirate::setName(const string& name){
+     this->name = name;
+diff --git a/dry/Pirate.h b/dry/Pirate.h
+index b0af3fa..8815e94 100755
+--- a/dry/Pirate.h
++++ b/dry/Pirate.h
+@@ -12,6 +12,7 @@ private:
+ 
+ public:
+     Pirate(const string& name , int Bounty);
++    Pirate::Pirate(const string& name);
+     int getBounty() const;
+     void setBounty(int Bounty);
+ 
+
+commit 04113ab4b7bf727c809dcf66896ce8fb8f043266
+Author: Nagham Khatib <naghamkhatib@Naghams-MacBook-Air.local>
+Date:   Wed May 28 22:06:53 2025 +0300
+
+    add Bounty feature & fix Bounty value for luffy and zoro
+
+diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
+index c96892e..1e503fc 100755
+--- a/dry/Pirate.cpp
++++ b/dry/Pirate.cpp
+@@ -2,8 +2,7 @@
+ #include "Pirate.h"
+ 
+ 
+-Pirate::Pirate(const string& name): name(name) {}
+-
++ Pirate::Pirate(const string& name, int Bounty) : name(name) , Bounty(Bounty) {}
+ 
+ void Pirate::setName(const string& name){
+     this->name = name;
+@@ -19,3 +18,16 @@ std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
+     os << pirate.name;
+     return os;
+ }
++
++ void Pirate::setBounty(int Bounty){
++ this->Bounty = Bounty;
++
++}
++
++ int Pirate::getBounty() const{
++  return Bounty;
++ }
++
++void printBounty(const int Bounty) {
++     std::cout << Bounty << std::endl ;
++ }
+diff --git a/dry/Pirate.h b/dry/Pirate.h
+index 7769667..b0af3fa 100755
+--- a/dry/Pirate.h
++++ b/dry/Pirate.h
+@@ -8,15 +8,18 @@ using std::string;
+ class Pirate {
+ private:
+     string name;
++    int Bounty;
+ 
+ public:
+-    Pirate(const string& name);
++    Pirate(const string& name , int Bounty);
++    int getBounty() const;
++    void setBounty(int Bounty);
+ 
+     ~Pirate() = default;
+-
+     void setName(const string& name);
+ 
+     string getName();
++    void printBounty(int Bounty);
+ 
+     friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
+ };
+diff --git a/dry/main.cpp b/dry/main.cpp
+index 59d048a..aabc7c4 100755
+--- a/dry/main.cpp
++++ b/dry/main.cpp
+@@ -1,6 +1,8 @@
+ #include <iostream>
+ #include "Pirate.h"
+ #include <cstring>
++#define ZORO_BOUNTY 500000
++#define LUFFY_BOUNTY 1000000
+ 
+ using std::cout, std::endl;
+ 
+@@ -9,7 +11,8 @@ int main() {
+ 
+     Pirate luffy("Luffy");
+     Pirate zoro("Zoro");
+-
++    zoro.setBounty(ZORO_BOUNTY);
++    luffy.setBounty(LUFFY_BOUNTY);
+     const int crewSize = 2;
+     Pirate strawHatCrew[2] = {luffy, zoro};
+     // the problem was in line 15 that command called a default constructor in Pirate while Pirate doesn't have one
+
+commit 57174567ade6fd9926a5a30667961cd43ffc4a0c
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed May 28 19:39:14 2025 +0300
+
+     commit changes
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..ab58f24
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,14 @@
++cmake_minimum_required(VERSION 3.28)
++project(HW2)
++
++set(CMAKE_CXX_STANDARD 17)
++
++add_executable(HW2
++        dry/main.cpp
++        dry/Pirate.cpp
++        wet/Utilities.cpp
++        wet/tests.cpp
++        wet/Matrix.cpp
++        wet/MataMvidia.cpp
++        wet/MataMvidia.h
++)
+diff --git a/dry/CMakeLists.txt b/dry/CMakeLists.txt
+index e69de29..5a20576 100644
+--- a/dry/CMakeLists.txt
++++ b/dry/CMakeLists.txt
+@@ -0,0 +1,8 @@
++cmake_minimum_required(VERSION 3.28)
++project(dry)
++
++set(CMAKE_CXX_STANDARD 17)
++
++add_executable(dry
++        main.cpp
++Pirate.cpp)
+diff --git a/dry/main.cpp b/dry/main.cpp
+index 020584f..59d048a 100755
+--- a/dry/main.cpp
++++ b/dry/main.cpp
+@@ -13,11 +13,11 @@ int main() {
+     const int crewSize = 2;
+     Pirate strawHatCrew[2] = {luffy, zoro};
+     // the problem was in line 15 that command called a default constructor in Pirate while Pirate doesn't have one
+-    // what I did is : put the values as in assignment and in that way no need to use a default constructor
++    // what I did is : put the values as in assignment and in that way no need to use a default constructor and the
++    // values are in the places that we wanted
+     cout << "Straw Hat crew contains:" << endl;
+     for (int i = 0; i < crewSize; i++) {
+         cout << strawHatCrew[i] << endl;
+     }
+-
+     return 0;
+ }
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 9cd3e85..08dccfa 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -10,7 +10,7 @@
+ #endif //MATAMVIDIA_H
+ class MataMvidia {
+     int numOfFrames;
+-    Matrix* film;    
++    Matrix* film;
+     string nameOfFilm;
+     string nameOfMaker;
+     MataMvidia (const MataMvidia& other);
+
+commit 2310117aaa0222ad2aa25ef1d7e867c7729a3d17
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed May 28 03:44:49 2025 +0300
+
+    implement and declare the class MataMvidia
+
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+index 08dccfa..9cd3e85 100644
+--- a/wet/MataMvidia.h
++++ b/wet/MataMvidia.h
+@@ -10,7 +10,7 @@
+ #endif //MATAMVIDIA_H
+ class MataMvidia {
+     int numOfFrames;
+-    Matrix* film;
++    Matrix* film;    
+     string nameOfFilm;
+     string nameOfMaker;
+     MataMvidia (const MataMvidia& other);
+
+commit 4bea6db008d39f4181dac68caac344802980b6c6
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed May 28 03:43:53 2025 +0300
+
+    implement rotateClockwise functiom
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index dc08bd1..cf8c349 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -60,7 +60,7 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
+     }
+     if (this->rows != matrix.rows || this->columns != matrix.columns ) {
+         return false;
+-    }
++    }  
+     for (int i = 0 ; i < (this->rows * this->columns); i++) {
+         if (this->arr[i] != matrix.arr[i]) {
+             return false;
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index ed2c417..4533966 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -7,9 +7,9 @@
+ 
+ #endif //MATRIX_H
+ class Matrix {
+-    int rows = 0  ;
+-    int columns = 0 ;
+-    int* arr = nullptr;
++    int rows ;
++    int columns ;
++    int* arr ;
+     Matrix ();
+     Matrix (int rows ,  int columns ) ;
+     Matrix (int rows ,  int columns , int values) ;
+
+commit 0b45323fd7e6b0ca9d4f3950bf7687669aebf6ca
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed May 28 03:38:28 2025 +0300
+
+    implement copy and operator= in MataMvidia
+
+diff --git a/wet/MataMvidia.cpp b/wet/MataMvidia.cpp
+new file mode 100644
+index 0000000..b706ed5
+--- /dev/null
++++ b/wet/MataMvidia.cpp
+@@ -0,0 +1,26 @@
++//
++// Created by abush on 5/28/2025.
++//
++
++#include "MataMvidia.h"
++
++MataMvidia :: MataMvidia (const MataMvidia& other) {
++    this -> numOfFrames = other.numOfFrames;
++    this -> film =new Matrix [other.numOfFrames];
++    for (int i = 0; i < numOfFrames; i++) {
++        this -> film [i] = other.film[i];
++    }
++    this -> nameOfFilm = other.nameOfFilm;
++    this ->nameOfMaker = other.nameOfMaker;
++}
++MataMvidia& MataMvidia :: operator= (const MataMvidia& other) {
++    if (other.numOfFrames != this -> numOfFrames) {
++        this -> film (new Matrix* [other.numOfFrames]);
++    }
++    for (int i = 0; i < numOfFrames; i++) {
++        this -> film [i] = other.film[i];
++    }
++    this -> numOfFrames = other.numOfFrames;
++    this -> nameOfFilm = other.nameOfFilm;
++    this ->nameOfMaker = other.nameOfMaker;
++}
+diff --git a/wet/MataMvidia.h b/wet/MataMvidia.h
+new file mode 100644
+index 0000000..08dccfa
+--- /dev/null
++++ b/wet/MataMvidia.h
+@@ -0,0 +1,18 @@
++//
++// Created by abush on 5/28/2025.
++//
++
++#ifndef MATAMVIDIA_H
++#define MATAMVIDIA_H
++#include "Matrix.h"
++#include <string>
++
++#endif //MATAMVIDIA_H
++class MataMvidia {
++    int numOfFrames;
++    Matrix* film;
++    string nameOfFilm;
++    string nameOfMaker;
++    MataMvidia (const MataMvidia& other);
++    MataMvidia& operator= (const MataMvidia& other);
++};
+
+commit d89a6af94120b718e3106c014f49534edeeacc23
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed May 28 02:29:41 2025 +0300
+
+    implement function rotateCounterClockwise
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 92e7de3..dc08bd1 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -70,4 +70,35 @@ bool Matrix :: operator== ( const Matrix& matrix ) const {
+ }
+ bool Matrix :: operator!= ( const Matrix& matrix ) const {
+     return !(*this == matrix) ;
++}
++// this function first prints the values inside the columns upwards like the last value in the first column
++// first and the first value in the first row last then moves to the next column
++// in that way we rotate the matrix in a clock wise way
++Matrix Matrix :: rotateClockwise ( Matrix& matrix ){
++    int i =0;// index for the rotated matrix indexes
++    int indexLastRow = (columns * rows) -  (this -> columns ) ;
++    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
++    while (indexLastRow < this -> columns * this -> rows) {
++    for (int k = matrix.arr[ indexLastRow ] ; k >= 0  ; k -= this -> columns){
++            rotatedMatrix.arr[i] = matrix.arr[k] ;
++            i++;
++        }
++        indexLastRow = indexLastRow + 1 ;
++    }
++    return rotatedMatrix ;
++}
++//we copy now from the last column and going back to the first one ; reading from the rows also from last
++//row to the first one
++Matrix Matrix :: rotateCounterClockwise ( Matrix& matrix ) {
++    int i =0;// index for the rotated matrix indexes
++    int indexLastColumn = columns - 1 ;
++    Matrix rotatedMatrix (this -> columns , this -> rows, 0);
++    while (indexLastColumn < this -> columns * this -> rows) {
++        for (int k = matrix.arr[ indexLastColumn ] ; k < (this ->columns * rows)  ; k += this -> columns){
++            rotatedMatrix.arr[i] = matrix.arr[k] ;
++            i++;
++        }
++        indexLastColumn = indexLastColumn - 1 ;
++    }
++    return rotatedMatrix ;
+ }
+\ No newline at end of file
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index e232f02..ed2c417 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -20,5 +20,7 @@ class Matrix {
+     friend Matrix operator* ( int scalar , Matrix& matrix );
+     bool operator==( const Matrix& matrix ) const ;
+     bool operator!=( const Matrix& matrix ) const ;
++    Matrix rotateClockwise ( Matrix& matrix );
++    Matrix rotateCounterClockwise ( Matrix& matrix );
+ 
+ };
+\ No newline at end of file
+
+commit 41784fe2ffac73c665a0e31d0b73293678177303
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Wed May 28 00:20:36 2025 +0300
+
+    implement operator == and operator !=
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 19d6d7c..92e7de3 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -51,5 +51,23 @@ Matrix operator* ( int scalar , Matrix& matrix ) {
+         result.arr[i] = matrix.arr [i] * scalar ;
+     }
+     return result;
+-}
++}// when ther is a scalar from the right then the function searches for an integer function that have * operator and take matrix as a parameter there is no such function in
++//the integer class so I declared this non member function to be used when there is scalar from the left
+ 
++bool Matrix :: operator== ( const Matrix& matrix ) const {
++    if ((this -> arr == nullptr && matrix.arr != nullptr) || (this -> arr != nullptr && matrix.arr == nullptr)) {
++        return false;
++    }
++    if (this->rows != matrix.rows || this->columns != matrix.columns ) {
++        return false;
++    }
++    for (int i = 0 ; i < (this->rows * this->columns); i++) {
++        if (this->arr[i] != matrix.arr[i]) {
++            return false;
++        }
++    }
++    return true ;
++}
++bool Matrix :: operator!= ( const Matrix& matrix ) const {
++    return !(*this == matrix) ;
++}
+\ No newline at end of file
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 568d905..e232f02 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -13,11 +13,12 @@ class Matrix {
+     Matrix ();
+     Matrix (int rows ,  int columns ) ;
+     Matrix (int rows ,  int columns , int values) ;
+-    ~Matrix () ;
++   // should check if we even need this  ~Matrix () ;
+     int& operator()( int i , int j );
+     Matrix operator*( int scalar );
+     Matrix& operator*=( int scalar );
+     friend Matrix operator* ( int scalar , Matrix& matrix );
+-
++    bool operator==( const Matrix& matrix ) const ;
++    bool operator!=( const Matrix& matrix ) const ;
+ 
+ };
+\ No newline at end of file
+
+commit 678386e532692266162489178d2d46eafbd2c8cc
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Tue May 27 23:34:10 2025 +0300
+
+    implement friend function operator*
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 0121962..19d6d7c 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -5,6 +5,9 @@
+ #include "Matrix.h"
+ 
+ Matrix :: Matrix () {
++    rows = 0 ;
++    columns = 0 ;
++    arr = new int [0] ;
+ }
+ Matrix::Matrix (int rows ,  int columns ) {
+     this -> rows = rows;
+@@ -32,11 +35,21 @@ Matrix& Matrix::operator*= ( int scalar ) {
+     return *this;
+ }
+ 
+-Matrix& Matrix::operator* ( int scalar ){
+-    // it will take the matrix that's on the left as this object call the * in the class from type matrix
+-    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
++Matrix Matrix::operator* ( int scalar ){
++    // it will take the matrix that's on the left as this object , call the * in the class from type matrix
++    // and take the scalar on the right as a value that the matrix takes and multiply as in this code
++    Matrix result (rows ,columns,0);
+     for (int i = 0 ; i < (rows * columns); i++) {
+-        arr [i]*= scalar ;
++        result.arr[i] = this -> arr [i] * scalar ;
+     }
+-    return *this;
++    return result;
++}
++
++Matrix operator* ( int scalar , Matrix& matrix ) {
++    Matrix result (matrix.rows ,matrix.columns,0);
++    for (int i = 0 ; i < (matrix.rows * matrix.columns); i++) {
++        result.arr[i] = matrix.arr [i] * scalar ;
++    }
++    return result;
+ }
++
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index ab827c2..568d905 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -11,12 +11,13 @@ class Matrix {
+     int columns = 0 ;
+     int* arr = nullptr;
+     Matrix ();
+-    Matrix (int rows = 0 ,  int columns = 0) ;
+-    Matrix (int rows = 0 ,  int columns = 0 , int values=0) ;
++    Matrix (int rows ,  int columns ) ;
++    Matrix (int rows ,  int columns , int values) ;
+     ~Matrix () ;
+     int& operator()( int i , int j );
+-    Matrix& operator*( int scalar );
++    Matrix operator*( int scalar );
+     Matrix& operator*=( int scalar );
++    friend Matrix operator* ( int scalar , Matrix& matrix );
+ 
+ 
+ };
+\ No newline at end of file
+
+commit b4629ba993632589b4f08ace171bda945a442cda
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Tue May 27 22:13:26 2025 +0300
+
+    implement the operators : () * =* for the matrix on the left
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 92bc7af..0121962 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -5,13 +5,13 @@
+ #include "Matrix.h"
+ 
+ Matrix :: Matrix () {
+-}  
+-Matrix :: Matrix (int rows ,  int columns ) {
++}
++Matrix::Matrix (int rows ,  int columns ) {
+     this -> rows = rows;
+     this -> columns = columns;
+     this -> arr = new int[rows * columns]();
+ }
+-Matrix :: Matrix (int rows ,  int columns , int value) {
++ Matrix::Matrix (int rows ,  int columns , int value) {
+     this -> rows = rows;
+     this -> columns = columns;
+     this -> arr = new int [rows * columns];
+@@ -19,7 +19,24 @@ Matrix :: Matrix (int rows ,  int columns , int value) {
+         arr[i] = value ;
+     }
+ }
+-int& operator()()( int i , int j ){ // returning a referrence and not just an int handels all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
++int& Matrix::operator()( int i , int j ){ // returning a referrence and not just an int handels all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
+     int place = ( i * columns )+ j ;// finding the index according to the giving info in the question i *width +j knowing that width = columns
+     return arr[place] ;
+ }
++Matrix& Matrix::operator*= ( int scalar ) {
++    // it will take the matrix that's on the left as this object call the *= in the class from type matrix
++    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
++    for (int i = 0 ; i < (rows * columns); i++) {
++        arr [i]= arr[i] * scalar ;
++    }
++    return *this;
++}
++
++Matrix& Matrix::operator* ( int scalar ){
++    // it will take the matrix that's on the left as this object call the * in the class from type matrix
++    // and take the sclar on the right as a value that the matrix takes and multiply as in this code
++    for (int i = 0 ; i < (rows * columns); i++) {
++        arr [i]*= scalar ;
++    }
++    return *this;
++}
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+index 94fb166..ab827c2 100644
+--- a/wet/Matrix.h
++++ b/wet/Matrix.h
+@@ -14,8 +14,9 @@ class Matrix {
+     Matrix (int rows = 0 ,  int columns = 0) ;
+     Matrix (int rows = 0 ,  int columns = 0 , int values=0) ;
+     ~Matrix () ;
+-    int& operator()()( int i , int j );
+-    Matrix& operator*( int b );
++    int& operator()( int i , int j );
++    Matrix& operator*( int scalar );
++    Matrix& operator*=( int scalar );
+ 
+ 
+ };
+\ No newline at end of file
+
+commit f509a26a346d598edc83ca8e42c37910535ab14f
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Tue May 27 05:37:54 2025 +0300
+
+    implement the function
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+index 58a51ec..92bc7af 100644
+--- a/wet/Matrix.cpp
++++ b/wet/Matrix.cpp
+@@ -5,7 +5,7 @@
+ #include "Matrix.h"
+ 
+ Matrix :: Matrix () {
+-}
++}  
+ Matrix :: Matrix (int rows ,  int columns ) {
+     this -> rows = rows;
+     this -> columns = columns;
+
+commit 0833478c4f6107fc5c07d397976be90433af68bb
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Tue May 27 05:37:10 2025 +0300
+
+    Build the class with all of it's fields
+
+diff --git a/wet/Matrix.cpp b/wet/Matrix.cpp
+new file mode 100644
+index 0000000..58a51ec
+--- /dev/null
++++ b/wet/Matrix.cpp
+@@ -0,0 +1,25 @@
++//
++// Created by abush on 5/27/2025.
++//
++
++#include "Matrix.h"
++
++Matrix :: Matrix () {
++}
++Matrix :: Matrix (int rows ,  int columns ) {
++    this -> rows = rows;
++    this -> columns = columns;
++    this -> arr = new int[rows * columns]();
++}
++Matrix :: Matrix (int rows ,  int columns , int value) {
++    this -> rows = rows;
++    this -> columns = columns;
++    this -> arr = new int [rows * columns];
++    for (int i=0 ; i< (rows *columns); i++) {
++        arr[i] = value ;
++    }
++}
++int& operator()()( int i , int j ){ // returning a referrence and not just an int handels all cases cause if we want to write a value into that exact index we can not do that if we returned a copy so the reference make sure we're changing in the wanted place
++    int place = ( i * columns )+ j ;// finding the index according to the giving info in the question i *width +j knowing that width = columns
++    return arr[place] ;
++}
+diff --git a/wet/Matrix.h b/wet/Matrix.h
+new file mode 100644
+index 0000000..94fb166
+--- /dev/null
++++ b/wet/Matrix.h
+@@ -0,0 +1,21 @@
++//
++// Created by abush on 5/27/2025.
++//
++
++#ifndef MATRIX_H
++#define MATRIX_H
++
++#endif //MATRIX_H
++class Matrix {
++    int rows = 0  ;
++    int columns = 0 ;
++    int* arr = nullptr;
++    Matrix ();
++    Matrix (int rows = 0 ,  int columns = 0) ;
++    Matrix (int rows = 0 ,  int columns = 0 , int values=0) ;
++    ~Matrix () ;
++    int& operator()()( int i , int j );
++    Matrix& operator*( int b );
++
++
++};
+\ No newline at end of file
+
+commit c7a029a663db1c730a387f9d3842339dd3c95f7b
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Tue May 27 02:41:30 2025 +0300
+
+    make a CmakeList
+
+diff --git a/dry/main.cpp b/dry/main.cpp
+index 6b659a1..020584f 100755
+--- a/dry/main.cpp
++++ b/dry/main.cpp
+@@ -11,11 +11,9 @@ int main() {
+     Pirate zoro("Zoro");
+ 
+     const int crewSize = 2;
+-    
+-    Pirate strawHatCrew[2];
+-    strawHatCrew[0] = luffy;
+-    strawHatCrew[1] = zoro;
+-    
++    Pirate strawHatCrew[2] = {luffy, zoro};
++    // the problem was in line 15 that command called a default constructor in Pirate while Pirate doesn't have one
++    // what I did is : put the values as in assignment and in that way no need to use a default constructor
+     cout << "Straw Hat crew contains:" << endl;
+     for (int i = 0; i < crewSize; i++) {
+         cout << strawHatCrew[i] << endl;
+
+commit e10bef2c7aad2284c0ef0b138e315d80fcd03845
+Author: AyaA117 <a.aya@campus.technion.ac.il>
+Date:   Tue May 27 02:40:05 2025 +0300
+
+    fix the compilation error in main.cpp
+
+diff --git a/dry/CMakeLists.txt b/dry/CMakeLists.txt
+new file mode 100644
+index 0000000..e69de29
+
+commit c65429a06733cbe3e92fbec93a5fd12f30fcdf41
+Author: EgbariaMohammad <agbariya@campus.technion.ac.il>
+Date:   Tue May 20 22:49:49 2025 +0300
+
+    Initial Commit
+
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..0a4b9a1
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,7 @@
++# Matam Homework 2
++
++This repository contains all supplied files for the second homework assignment in the course "Introduction to Systems Programming" (234124) at the Technion.
++
++You may find the full instructions for this assignment on the [course's website](https://webcourse.cs.technion.ac.il/02340124/Winter2024-2025).
++
++Good luck and have fun!
+diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
+new file mode 100755
+index 0000000..c96892e
+--- /dev/null
++++ b/dry/Pirate.cpp
+@@ -0,0 +1,21 @@
++
++#include "Pirate.h"
++
++
++Pirate::Pirate(const string& name): name(name) {}
++
++
++void Pirate::setName(const string& name){
++    this->name = name;
++}
++
++
++std::string Pirate::getName(){
++    return name;
++}
++
++
++std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
++    os << pirate.name;
++    return os;
++}
+diff --git a/dry/Pirate.h b/dry/Pirate.h
+new file mode 100755
+index 0000000..7769667
+--- /dev/null
++++ b/dry/Pirate.h
+@@ -0,0 +1,22 @@
++
++#pragma once
++
++#include <iostream>
++
++using std::string;
++
++class Pirate {
++private:
++    string name;
++
++public:
++    Pirate(const string& name);
++
++    ~Pirate() = default;
++
++    void setName(const string& name);
++
++    string getName();
++
++    friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
++};
+diff --git a/dry/main.cpp b/dry/main.cpp
+new file mode 100755
+index 0000000..6b659a1
+--- /dev/null
++++ b/dry/main.cpp
+@@ -0,0 +1,25 @@
++#include <iostream>
++#include "Pirate.h"
++#include <cstring>
++
++using std::cout, std::endl;
++
++
++int main() {
++
++    Pirate luffy("Luffy");
++    Pirate zoro("Zoro");
++
++    const int crewSize = 2;
++    
++    Pirate strawHatCrew[2];
++    strawHatCrew[0] = luffy;
++    strawHatCrew[1] = zoro;
++    
++    cout << "Straw Hat crew contains:" << endl;
++    for (int i = 0; i < crewSize; i++) {
++        cout << strawHatCrew[i] << endl;
++    }
++
++    return 0;
++}
+diff --git a/wet/Utilities.cpp b/wet/Utilities.cpp
+new file mode 100755
+index 0000000..c35944f
+--- /dev/null
++++ b/wet/Utilities.cpp
+@@ -0,0 +1,23 @@
++
++#include "Utilities.h"
++
++#include <iostream>
++
++using std::cerr;
++
++
++void exitWithError(MatamErrorType error) {
++    std::cerr << "Matam Error: ";
++    switch (error) {
++        case MatamErrorType::UnmatchedSizes:
++            std::cerr << "Unmatched matrices" << std::endl;
++            break;
++        case MatamErrorType::OutOfBounds:
++            std::cerr << "Out of bounds" << std::endl;
++            break;
++        case MatamErrorType::NotSquareMatrix:
++            std::cerr << "Matrix must be square to calculate determinant" << std::endl;
++            break;
++    }
++    exit(1);
++}
+diff --git a/wet/Utilities.h b/wet/Utilities.h
+new file mode 100755
+index 0000000..c07958d
+--- /dev/null
++++ b/wet/Utilities.h
+@@ -0,0 +1,10 @@
++
++#pragma once
++
++enum class MatamErrorType {
++    UnmatchedSizes,
++    OutOfBounds,
++    NotSquareMatrix
++};
++
++void exitWithError(MatamErrorType error);
+diff --git a/wet/test.expected b/wet/test.expected
+new file mode 100755
+index 0000000..d107ab8
+--- /dev/null
++++ b/wet/test.expected
+@@ -0,0 +1,19 @@
++|5|6|
++|7|8|
++
++Movie Name: MataMatrix
++Author: Baraa Egbaria
++
++Frame 0:
++|1|2|
++|3|4|
++
++Frame 1:
++|5|6|
++|7|8|
++
++Frame 2:
++|1|2|
++|3|4|
++
++-----End of Movie-----
+diff --git a/wet/tests.cpp b/wet/tests.cpp
+new file mode 100755
+index 0000000..d8bc5a7
+--- /dev/null
++++ b/wet/tests.cpp
+@@ -0,0 +1,130 @@
++
++
++#include <string>
++#include <iostream>
++
++#include "Matrix.h"
++#include "MataMvidia.h"
++
++using namespace std;
++typedef bool (*testFunc)(void);
++
++bool testMatrix(std::ostream& out);
++bool testMataMvidia(std::ostream& out);
++
++
++#define ASSERT_TEST(expr)                                                      \
++do {                                                                           \
++    if (!(expr)) {                                                             \
++        std::cout << "\nAssertion failed at ";                                 \
++        std::cout << __FILE__ << ":" << __LINE__ << ": " << #expr << std::endl;\
++        exit(1);                                                               \
++    }                                                                          \
++} while (0)
++
++
++int main() {
++    testMatrix(std::cout);
++    testMataMvidia(std::cout);
++    return 0;
++}
++
++bool testMatrix(std::ostream& out) {
++    Matrix m1(2,2);
++    Matrix m2(2,2);
++
++    m1(0,0) = 1;
++    m1(0,1) = 2;
++    m1(1,0) = 3;
++    m1(1,1) = 4;
++
++    m2(0,0) = 5;
++    m2(0,1) = 6;
++    m2(1,0) = 7;
++    m2(1,1) = 8;
++
++    Matrix m3 = m1 + m2;
++    ASSERT_TEST(m3(0,0) == 6);
++    ASSERT_TEST(m3(0,1) == 8);
++    ASSERT_TEST(m3(1,0) == 10);
++    ASSERT_TEST(m3(1,1) == 12);
++
++    Matrix m4 = m1 * m2;
++    m4 *= 1;
++    ASSERT_TEST(m4(0,0) == 19);
++    ASSERT_TEST(m4(0,1) == 22);
++    ASSERT_TEST(m4(1,0) == 43);
++    ASSERT_TEST(m4(1,1) == 50);
++
++    m1 += m2;
++    m1 *= m2;
++    m1 -= m2;
++    m1 = m3 - m2;
++
++    ASSERT_TEST(-m1 == -1*m1);
++    ASSERT_TEST(-m1 == m1*-1);
++
++    ASSERT_TEST(m2.rotateClockwise().rotateCounterClockwise() == m2);
++
++    ASSERT_TEST(m1.transpose().transpose() == m1);
++
++    out << m2 << std::endl;
++
++    return true;
++}
++
++bool testMataMvidia(std::ostream& out) {
++    Matrix frame1(2,2);
++    Matrix frame2(2,2);
++
++    frame1(0,0) = 1;
++    frame1(0,1) = 2;
++    frame1(1,0) = 3;
++    frame1(1,1) = 4;
++
++    frame2(0,0) = 5;
++    frame2(0,1) = 6;
++    frame2(1,0) = 7;
++    frame2(1,1) = 8;
++
++    Matrix array[2];
++    array[0] = frame1;
++    array[1] = frame2;
++
++    MataMvidia movie("MataMatrix","Baraa Egbaria",array, 2);
++
++    ASSERT_TEST(movie[0] == frame1);
++
++    movie += frame1;
++
++    ASSERT_TEST(movie[2] == frame1);
++
++    Matrix frame01(2,2);
++    Matrix frame11(2,2);
++
++    frame01(0,0) = 10;
++    frame01(0,1) = 20;
++    frame01(1,0) = 30;
++    frame01(1,1) = 40;
++
++    frame11(0,0) = 50;
++    frame11(0,1) = 60;
++    frame11(1,0) = 70;
++    frame11(1,1) = 80;
++
++    Matrix array1[2];
++    array1[0] = frame01;
++    array1[1] = frame11;
++
++    MataMvidia movie1("MataMatrix and the chamber of secrets","Baraa Egbaria",array1, 2);
++
++    ASSERT_TEST(movie1[0] == frame01);
++
++    //test output
++    out << movie;
++
++    MataMvidia movie2 = movie + movie1;
++    movie += movie1;
++
++    return true;
++}
